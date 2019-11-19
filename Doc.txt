@@ -1,0 +1,109 @@
+Project name Music Party Choose (MUP):
+
+Created by: 
+    ->Silviu Mariuta
+    ->Livint Lucian
+    ->Gatu Cristian
+
+Coordinating Teacher: 
+    ->Pavaloi Alexandru
+
+Institution: Alexandru Ioan Cuza University: "Faculty of Computer Science"
+Institution Adress:  Romania Iasi Iasi : Strada General Henri Mathias Berthelot Nr. 16, Iași 700259
+
+Description: 
+    
+    "Sa se implementeze un instrument "inteligent" care automatizeaza alegerea muzicii difuzate la o petrecere. 
+Initial, participantii isi vor exprima optiunile proprii privind melodiile/stilurile preferate. Sistemul va 
+oferi suport pentru preluarea de fisiere MP3 sau FLAC si va determina -- eventual, pe baza unor API-uri externe-- 
+diverse meta-date de interes: artist, anul aparitiei, stil, durata, album etc. Aplicatia alege melodii preferate 
+de cat mai multe persoane si va determina numarul utilizatorilor care danseaza folosind datele oferite de giroscopul 
+dispozitivului personal via Gyroscope API. Strategia de alegerea a melodiilor trebuie sa aiba ca rezultat maximizarea 
+numarului persoanelor care danseaza, eventual sugerand grupuri de utilizatori care impartasesc interese comune -- e.g.,
+cei pasionati de anumite tipuri de dans. Sistemul va oferi statistici pentru un utilizator individual sau la nivel
+global referitoare la timpul petrecut dansand, melodia favorita/detestata, stilurile muzicale (in)dezirabile etc."
+
+Structure:
+    1) Frontend
+    2) Backend
+    3) Database
+
+
+
+1)FRONTEND
+
+    Aplicatie single page:
+        -Login
+        -Register (Or combined)
+        -Meniu (My music, my parties, Home, Stats)
+        -My music (Colection of own music from  updates of MP3 or FLAC, playlists added from social music platforms <as Spotify, SoundCloud, AppleMusic, etc "Not all one by choise max 2"  > )
+        -My parties (Parties that you attend with you music recomandation for that party, time danced and other statistics )
+        -Home ( Create party or join one)
+        -Stats (Personal, From party or world wide from all users)
+        -Party (Add music, create playlist, submit)
+
+    Login/Register:
+            ->Can be too separate pages or just one where you can login or register to start parting with other people from around
+            ->For Login: Username, Password
+            ->For Register, Username, Pass, RePass (and mail <!!! optional !!!>)
+    Meniu: 
+            ->On Laptop/Computer and Tablet it will be on home page like a navbar ( Home )
+            ->Phone it will be a full page with all options with Links
+    My Music:
+            ->Full colection with all the music that you choose for parties, you added MP3, FLAC or from you submited playlists
+            ->You can add/ remove songs 
+            ->Add or remove playlists
+    My parties:
+            ->All the parties that you attend
+            ->Different statistics about time danced at that party, recomanded songs, etc
+    Home: 
+            ->2 sides
+            ->One "Create a party" open a formular and generate a code
+            ->Second "Join a party" open a formular where you have to submit a "Party Code"
+    Stats:
+            ->Statistics
+            ->Personal
+            ->World wide
+            ->Time danced
+            ->Contribution to playlists
+            ->Etc.
+    Party: 
+            ->Create playlist for party 
+            ->Submit the playlist
+
+    MusicPlayer:
+            ->"DJ" (Owner)
+                -->Create the playlist based on the people that attend the party, dance, choose music, etc;
+            ->People:
+                -->Create a goal base on previous party, time danced, etc.
+
+                
+2)Backend:
+    Rute:
+            ->Login /login
+            ->Register /register 
+            ->User Music /music/{userId}
+            ->User party /getParty/{userId}
+            ->Party music /getParty/music/{partyId} 
+            ->Create Party /createParty
+            ->Join a party /joinParty
+            ->Statistics /stats/{userId}
+            ->Submit user movement /move/{partyId}/{userId}
+            ->Update Users songs /putSong/{userId}
+            ->Update Party Playlist from User /putPlaylist/{partyId}/{userId}
+            ->etc. ( // dev si pentru put si POST le faceti voi va rog ce a ramas  ) 
+
+3)Database:(Mongo)
+    Table:
+            ->Users
+            ->Party
+            ->Users party
+            ->Stats
+    Querrys:
+            ->Get user by id 
+            ->Post user 
+            ->Put user by id
+            ->Get/Put/Post user music by userId
+            ->GET/POST/PUT Party by id
+            ->GET/POST/PUT Party music by user id
+            ->GET/POST/PUT 
