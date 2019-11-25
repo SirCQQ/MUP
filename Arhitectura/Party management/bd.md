@@ -14,7 +14,6 @@ vote_count:},unde
 ## Songs
 #### Fields:
 * song_id
-*  song_path
 * artist
 * title
 * album

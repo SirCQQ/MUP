@@ -16,6 +16,23 @@ message poate fi:
 
 error codes:500 server error
 
+## ACTIVATE ACCOUNT
+### Request:
+<b>POST /register-validate</b> 
+{
+	"email":,
+	"code":
+}
+### Response:
+<b>200,Content-Type:application/json</b>
+{
+	validate:true/false
+}
+true daca s-a activat cu succes/false altfel
+
+error codes:500 server error
+
+
 
 ## LOGIN
 ### Request:

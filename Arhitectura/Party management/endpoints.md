@@ -32,10 +32,9 @@ error codes:403 for wrong credentials;401 for no credentials;500 server error
 <b>200</B>
 error codes:403 for wrong credentials;401 for no credentials;500 server error
 
-## Upload a song
+## Add song to party
 ### Request:
 <b>POST /addSong?artist=""&title="" </b> 
-Requests in form of a content type:<b> multipart/form</b>
 ### Response:
 <b>200</B>
 error codes:403 for wrong credentials;401 for no credentials;500 server error
