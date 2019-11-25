@@ -175,9 +175,11 @@
                 <br>
             </li>
 
-            <li property="schema: roleSongStreaming">
-                <u>4. Song Streaming</u>
-                <br>
+            <li property="schema: roleSongManager">
+  
+  Ultimul micro serviciu se va ocupa, strict, de fisierele audio. Prin intermediul acestui serviciu va fi posibila realizare a              <u>4. Song Manager</u>
+
+Ultimul micro serviciu se va ocupa, strict, de fisierele audio. Prin intermediul acestui serviciu va fi posibila realizarea                <br>
                 Will come soon
                 <br />
                 <br>
@@ -197,11 +199,20 @@
     utiliza aplicatia, si poate sa editeze date de cont. Totul este usor de utilizat, datele ce trebuie furnizate sunt
     minime, necesare pentru a valida faptul ca un cont apartine unui anumit utilizator.
     <h5>Party Managament</h5>
-    will come soon
-    <h5>roleStatistics And Recomandations</h5>
-    will come soon
-    <h5>Song Streaming</h5>
-    will come soon
+    Utilizatorul strict logat, va avea doua posibilitati. Cea de vizualizare a propiilor party-uri sau de alaturarea la un party
+    deja existent prin intermediul unui cod unic, generat automat in momentul crearii acestuia. La creearea unui party, utilizator va fi nevoit
+    sa acorde un nume petrecerii, locatia unde aceasta se va desfasura, un playlist initial pentru votare, care ulterior va putea fi actualizat
+    prin votul acordat de catre invitati si prin intermediul serviciului inteligent de recomandari( In functie de cati oameni danseaza/ 
+    preferintele anterioare a invitatilor, precum melodia sau genurile preferate).
+    <h5>Statistics And Recomandations</h5>
+    Acest micro serviciu este necesar pentru actualizarea playlist-ului curent, in functie de preferintele invitatilor. Pentru a realiza acest lucru, 
+    serviciul va mentine niste statistici pentru fiecare utilizator( melodia preferata/ melodia cea mai putin preferata/ genul muzical preferat/ timpul dansat per fiecare melodie).
+    Serviciul va estima pentru fiecare melodie, un scor. Acesta, va indica nivelul de potentiala apreciere a piesei respective. Playlist-ul, evident, va fi ordonat
+    in functie de scorul estimat de micro serviciu, astfel pe parcursul melodiei curente, se va calcula scorul atat pentru melodia imediat, urmatoare cat si pentru reorganizarea playlist-ului viitor.
+    <h5>Song Manager</h5>
+    Ultimul micro serviciu se va ocupa, strict, de fisierele audio. Prin intermediul acestui serviciu va fi posibila realizarea
+    de upload a unui fisier de tipul audio(MP3, etc) si respectiv, de stream-uitul acestui fisier catre device-ul utilizat de dj(host).
+    
 
     <section typeof="sa:ReferencesList">
         <h2 style="color:rgb(126, 31, 126)">4. References</h2>
