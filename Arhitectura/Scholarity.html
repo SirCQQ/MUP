@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MUP Scholarly HTML</title>
+</head>
+
+
+<body>
+    <header>
+        <h1 style="color:rgb(126, 31, 126)">MUP Scholarly HTML</h1>
+    </header>
+
+    <section typeof="sa:AuthorsList">
+        <h3>Authors</h3>
+        <ul>
+            <li typeof="sa:ContributorRole" property="schema:author">
+                <span typeof="schema:Person" resource="">
+                    <meta property="schema:givenName" content="Silviu">
+                    <meta property="schema:additionalName" content="Andrei">
+                    <meta property="schema:familyName" content="Mariuta">
+                    <span property="schema:name">Silviu A. Mariuta</span>
+                </span>
+                <ul>
+                    <li property="schema:roleContactPoint" typeof="schema:ContactPoint">
+                        <a href="silviu.mariuta@info.uaic.ro" property="schema:email">silviu.mariuta@info.uaic.ro</a>
+                    </li>
+                </ul>
+            </li>
+            <li typeof="sa:ContributorRole" property="schema:author">
+                <span typeof="schema:Person" resource="">
+                    <meta property="schema:givenName" content="Cristian">
+                    <meta property="schema:additionalName" content="">
+                    <meta property="schema:familyName" content="Gatu">
+                    <span property="schema:name">Cristan Gatu</span>
+                </span>
+                <ul>
+                    <li property="schema:roleContactPoint" typeof="schema:ContactPoint">
+                        <a href="cristian.gatu@info.uaic.ro" property="schema:email">cristian.gatu@info.uaic.ro</a>
+                    </li>
+                </ul>
+            </li>
+            <li typeof="sa:ContributorRole" property="schema:author">
+                <span typeof="schema:Person" resource="">
+                    <meta property="schema:givenName" content="Lucian">
+                    <meta property="schema:additionalName" content="DoubleL">
+                    <meta property="schema:familyName" content="Livint">
+                    <span property="schema:name">Lucian Livint</span>
+                </span>
+                <ul>
+                    <li property="schema:roleContactPoint" typeof="schema:ContactPoint">
+                        <a href="livintlucian@gmail.com" property="schema:email">livintlucian@gmail.com</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+    <section typeof="sa:ContributorsList">
+        <h4>Contributors</h4>
+        <ul>
+            <li typeof="sa:ContributorRole" property="schema:contributor">
+                <span typeof="schema:Person" resource="">
+                    <meta property="schema:givenName" content="Alexandru">
+                    <meta property="schema:additionalName" content="">
+                    <meta property="schema:familyName" content="Pavaloiu">
+                    <span property="schema:name">Alexandru Pavaloiu</span>
+                </span>
+
+                <ul>
+                    <li property="schema:roleContactPoint" typeof="schema:ContactPoint">
+                        <a href="mailto:pava@iampava.com" property="schema:email">pava@iampava.com</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+    <section typeof="sa:Discussion Group">
+        <h5>Discussion Group</h5>
+        <ul>
+            <li property="schema:listDiscussionGroup" typeof="schema:DiscussionGroup">
+                <a href="https://github.com/SirCQQ/MUP" property="schema:linkDiscussionGroup">GitHub
+                    Repository</a>
+            </li>
+        </ul>
+    </section>
+
+    <section typeof="sa:Abstract">
+        <h2 style="color:rgb(126, 31, 126)">1. Abstract</h2>
+        MUP este o aplicatie ce permite crearea/ adaptarea unui playlist in functie de preferintele muzicale ale
+        fiecarui invitat, in cadrul unui party organizat, doar in condiitile in care utilizatorul
+        curent are un cont inregistrat pe aplicatie si desigur se afla in grupul corespunzator petrecerii.
+        Platforma este contruita in intregime pe standarde deschise. Acest document reprezentand atat, modul in care
+        aplicatia prezinta diferite functionalitati, cat si modul in care este codificata.
+    </section>
+
+    <section typeof="sa:Introduction">
+        <h2 style="color:rgb(126, 31, 126)">2. Introduction</h2>
+        Industria IT este intr-o continua dezvoltare pe piata curenta. Majoritatea aplicatiilor ce doresc sa faciliteze
+        dorintele tutoror invitatilor de la o anumita petrecere,
+        vin doar cu un sistem prin care adapteaza playlist-ul muzical in concordanta cu nevoile fiecarui invitat,
+        printr-un sistem de votare.Insa, cu ajutorul inteligentei artificiale
+        MUP vine in ajutorul dezvoltatorilor cu o interfata pe cat se poate de atragatoare si usor de
+        folosit, iar pe langa sistemul de votare in playlist-ul curent, MUP va adapta playlist-ul si in functie de cati
+        oameni danseaza pe fiecare melodie in parte!
+    </section>
+
+    <section typeof="sa:Structure">
+        <h2 style="color:rgb(126, 31, 126)">3. Structure</h2>
+        Structura platformei este bazata pe modelul bine cunoscut, MVC(Model-view-controller), ce este un model
+        arhitectural. Succesul modelului se datoreaza izolarii logicii de bussines fata de considerentele interfetei cu
+        utilizatorul,
+        rezultand o aplicatie unde aspectul vizual sau/ si nivelele inferioare ale regulilor de bussines sunt mai usor
+        de modificat, fara a afecta alte nivele. Pe langa MVC, elementul controlor(API) este accesat prin AJAX,
+        prescurtarea pentru Asynchronous. Fiind o tehnica de programare pentru crearea de aplicatii web interactive
+        rapide.
+        O structurare in profunzime a aplicatiei sunt prezentate in sectiunile urmatoare.
+    </section>
+
+    <section typeof="sa:listMicroServices">
+        <h3>Micro Services</h3>
+        <ul>
+            <li property="schema: roleAccountService">
+                <u>1. Account Service</u>
+                <br>
+                Primul microserviciu este cel ce se ocupa cu gestionarea conturilor si ofera utilizatorilor
+                posibilitatea de
+                a face anumite actiuni specifice(sa-si schimbe parola, sa se logheze, sa isi creeze un cont).
+                A fost primul microserviciu la care ne-am gandit deoarece este indispensabil, este evident ca avem
+                nevoie de
+                o modalitate de a gestiona utilizatorii. Astfel, microserviciul acesta, este foarte important pentru
+                aplicatia noastra ca si tot unitar.
+                In momentul in care am proiectat bazele de date, am avut grija sa contina exact datele care ne sunt
+                utile
+                pentru a confirma identitatea unui utilizator, si pentru a putea construi un mediu de lucru in care sa
+                fie
+                usor oricui sa se desfasoare, sa nu existe momente in care sa nu stim cine cu cine lucreaza, si mai
+                important, toti utilizatorii sa poata folosi la maxim bazele de date pe care noi le furnizam.
+                In ultima etapa, am lucrat la un microserviciu robust, am incercat sa surprindem fiecare aspect pe care
+                l-am
+                putea resimti ca si utilizator al unei aplicatii web. Parolele vor fi stocate in baza de date, intr-un
+                mod criptat, folosind salted hashes
+                pentru a proteja mai bine parolele acestora. De asemenea, utilizatorul va fi nevoit sa-si activeze
+                contul prin intermediul sistemului de confirmare
+                prin e-mail.
+                <br />
+                <br>
+            </li>
+
+            <li property="schema: rolePartyManagement">
+                <u>2. Party Managament</u>
+                <br>
+                Al doilea microserviciu este responsabil de configurarea petrecerilor dorite, ceea ce implica:
+                <ul>
+                    <li>Create Party</li>
+                    <li>Delete Party</li>
+                    <li>Add Music to Party</li>
+                    <li>Get Song Details</li>
+                </ul>
+                <br />
+                <br>
+            </li>
+
+            <li property="schema: roleStatisticsAndRecomandations">
+                <u>3. Statistics And Recomandations</u>
+                <br>
+                Cel de-al treilea, si cel mai important, se preocupa de furnizarea si actualizarea statisticilor referitoare la playlist-uri si 
+                useri, folosindu-se de aceste statistici, alege piesele ce urmeaza in playlist.
+                
+                <br />
+                <br>
+            </li>
+
+            <li property="schema: roleSongStreaming">
+                <u>4. Song Streaming</u>
+                <br>
+                Will come soon
+                <br />
+                <br>
+            </li>
+
+        </ul>
+        Mai multe detalii privind modul de functionare a micro serviciilor descrise mai sus, vor fi regasite ulterior.
+    </section>
+
+
+    <h4>Micro Services- How's work?</h4>
+    <h5>Account Service</h5>
+    Micro serviciul de gestionare a conturilor utilizatorilor are cateva elemente centrale. Pentru inceput este pagina
+    de logare, care are elementele specifice, input urile de tip text si butonul de logare, care apeleaza printr o
+    procedura iavascript, functia de logare din back end. Aceasta pagina este prima pagina cu care ia contact
+    utilizatorul. Tot prin cadrul microserviciului acestuia, utilizatorul isi creaza un cont, indispensabil pentru a
+    utiliza aplicatia, si poate sa editeze date de cont. Totul este usor de utilizat, datele ce trebuie furnizate sunt
+    minime, necesare pentru a valida faptul ca un cont apartine unui anumit utilizator.
+    <h5>Party Managament</h5>
+    will come soon
+    <h5>roleStatistics And Recomandations</h5>
+    will come soon
+    <h5>Song Streaming</h5>
+    will come soon
+
+    <section typeof="sa:ReferencesList">
+        <h2 style="color:rgb(126, 31, 126)">4. References</h2>
+        <ul>
+            <li typeof="sa:listTW" property="schema:TW">
+                <span property="schema:nameReferences">DAWJS</span>
+                <ul>
+                    <li property="schema:linkReferences" typeof="schema:References">
+                        <a href="https://profs.info.uaic.ro/~busaco/teach/courses/staw/" property="schema:linkTW">Pagina
+                            Cursului</a>
+                    </li>
+                </ul>
+
+                <ul>
+                    <li property="schema:linkReferences" typeof="schema:References">
+                        <a href="https://devdrive.io/login?next=team&next=iampava&next=tw-2019-b1&next=php"
+                            property="schema:linkTW">DevDrive</a>
+                    </li>
+                </ul>
+
+                <ul>
+                    <li property="schema:linkReferences" typeof="schema:References">
+                        <a href="https://iampava.com/" property="schema:linkTW">iampava</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <ul>
+            <li typeof="sa:listW3" property="schema:W3">
+                <span property="schema:nameReferencesTutorial">W3 Schools</span>
+                <ul>
+                    <li property="schema:linkReferencesTutorial" typeof="schema:References">
+                        <a href="https://www.w3schools.com/html/" property="schema:linkHTML">HTML</a>
+                    </li>
+                    <li property="schema:linkReferencesTutorial" typeof="schema:References">
+                        <a href="https://www.w3schools.com/css/" property="schema:linkCSS">CSS</a>
+                    </li>
+                    <li property="schema:linkReferencesTutorial" typeof="schema:References">
+                        <a href="https://www.w3schools.com/js/" property="schema:linkJS">JavaScript</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <ul>
+            <li typeof="sa:listInspiration" property="schema:Inspiration">
+                <span property="schema:nameReferencesInspiration">Inspiration</span>
+                <ul>
+                    <li property="schema:linkReferencesStackOver" typeof="schema:References">
+                        <a href="https://stackoverflow.com/" property="schema:linkStackOver">Stack OverFlow</a>
+                    </li>
+                    <li property="schema:linkReferencesDB" typeof="schema:References">
+                        <a href="https://festify.rocks" property="schema:linkDB">Festify</a>
+                    </li>
+                    <li property="schema:linkReferencesDB" typeof="schema:References">
+                        <a href="https://www.mubo-app.com" property="schema:linkDB">MUBO</a>
+                    </li>
+                    <li property="schema:linkReferencesDB" typeof="schema:References">
+                        <a href="https://outloud.dj" property="schema:linkDB">Outloud</a>
+                    </li>
+                </ul>
+                <br>
+            </li>
+
+            <li typeof='sa:listMVC' property='schema:MVC'>
+                <span property="schema:nameReferencesMVC">MVC</span>
+                <ul>
+                    <li property="schema:linkReferencesWiki" typeof="schema:References">
+                        <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller"
+                            property="schema:linkStackOver">Wiki</a>
+                    </li>
+                    <li property="schema:linkReferencesBlog" typeof="schema:References">
+                        <a href="https://www.tutorialspoint.com/mvc_framework/mvc_framework_introduction.htm"
+                            property="schema:linkDB">Useful Blog</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+</body>
+
+</html>

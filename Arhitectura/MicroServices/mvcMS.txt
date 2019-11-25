@@ -1,0 +1,16 @@
+Login
+Register
+Change pass
+Verify Email
+---------------------------------------------------------
+Account Services(Se leaga de autorizare si autentificare)
+
+
+MyParties (create/ modify/ delete/start)-> ModifyParty 
+Avaible Parties join;add song ->ManageSongs
+----------------------------------------------------------
+MyParties -> party management
+Modify Party->party management
+Manage songs->party management & song management
+
+Live Party page ->song management party management stats 
