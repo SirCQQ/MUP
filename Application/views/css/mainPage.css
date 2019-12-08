@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css?family=Andada|Permanent+Marker|Raleway:300');
+html {}
+
+.mainPageElements {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+}
+
+body {
+    background-image: url('../backgrounds/backgroundMainPage.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+img {
+    width: 320px;
+    height: auto;
+    margin-top: 10%;
+}
+
+.joinPartyElements {
+    display: flex;
+    align-self: center;
+    flex-direction: column;
+}
+
+.buttonWrapper {
+    display: flex;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    justify-content: center;
+}
+
+#joinPartyButton {
+    flex: 1;
+}
+
+input {
+    border: 0;
+    border-bottom: 2px solid white;
+    font-family: 'Permanent Marker', cursisve;
+    font-size: 30px;
+    line-height: 35px;
+    height: 70px;
+    background: transparent;
+    text-align: center;
+    color: white;
+}
+
+input:focus {
+    outline: 0;
+    color: white;
+}
+
+input::placeholder {
+    color: white;
+    font-family: 'Permanent Marker', cursisve;
+    font-size: 25px;
+}
+
+button {
+    display: block;
+    background-color: purple;
+    outline: 0;
+    text-decoration: none;
+    border-radius: 0 10px 0 0;
+    border-color: white;
+    color: white;
+    font-family: 'Permanent Marker', cursisve;
+}
+
+#createPartyButton {
+    border-radius: 0 0 0 10px;
+    width: 100%;
+}
+
+.loginRegisterForm {
+    display: none;
+}
+
+.showForm {
+    display: flex;
+    justify-content: center;
+}

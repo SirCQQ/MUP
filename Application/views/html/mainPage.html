@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="../css/mainPage.css">
+    <title>MUP</title>
+</head>
+
+<body>
+
+    <div class='mainPageElements'>
+        <div class='logo'>
+            <!-- logo -->
+            <img src="../logoMUP/logoMUP.png" alt="logoMUP">
+        </div>
+        <div class="joinPartyElements">
+            <!-- form which send to server -->
+            <form action="#">
+                <input type="text" placeholder="#Party Code" required>
+                <div class="buttonWrapper">
+                    <button type="submit" id="joinPartyButton">Join A Party</button>
+                </div>
+            </form>
+
+            <!-- form( link) which send to the same page. -->
+            <!--            for login/ register           -->
+            <form action="./loginPage.html">
+                <button type="submit" id="createPartyButton">Create Party</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- script -->
+    <script src="../js/mainPage.js"></script>
+</body>
+
+</html>

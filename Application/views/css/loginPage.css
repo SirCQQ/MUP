@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css?family=Andada|Permanent+Marker|Raleway:300');
+body {
+    background-image: url('../backgrounds/backgroundMainPage.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.loginPageElements {
+    background: white;
+    opacity: 0.2;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+}
+
+img {
+    width: 150px;
+    height: auto;
+}
+
+.formLoginElements {
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+}
+
+.register {
+    display: flex;
+    justify-content: center;
+}
+
+button {
+    display: block;
+    background-color: purple;
+    outline: 0;
+    text-decoration: none;
+    border-radius: 0 10px 0 0;
+    border-color: white;
+    color: white;
+    font-family: 'Permanent Marker', cursisve;
+}
