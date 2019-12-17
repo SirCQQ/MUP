@@ -1,0 +1,16 @@
+{
+  "name": "dawjsproject",
+  "version": "1.0.0",
+  "description": "DAWJS Project for Faculty of Computer Science Iasi",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon index.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.2",
+    "update": "^0.7.4"
+  }
+}
