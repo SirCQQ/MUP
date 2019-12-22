@@ -1,0 +1,20 @@
+{
+  "name": "account-management",
+  "version": "1.0.0",
+  "description": "Account Management Microservice",
+  "main": "account_management.js",
+  "scripts": {
+    "test": "nodemon account_management.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.7",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.7.14",
+    "nodemailer": "^6.4.0",
+    "randomstring": "^1.1.5"
+  }
+}

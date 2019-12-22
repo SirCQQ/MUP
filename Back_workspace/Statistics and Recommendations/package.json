@@ -1,0 +1,15 @@
+{
+  "name": "statistics-recommendations",
+  "version": "1.0.0",
+  "description": "Statistics and Recommendations Microservice",
+  "main": "statistics_and_rec.js",
+  "scripts": {
+    "test": "nodemon statistics_and_rec.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.7.14"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "song-streaming",
+  "version": "1.0.0",
+  "description": "Song Streaming(And Upload) Service",
+  "main": "song_streaming.js",
+  "scripts": {
+    "test": "nodemon song_streaming.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.1.6",
+    "fs": "0.0.1-security",
+    "mongoose": "^5.7.14",
+    "socket.io-stream": "^0.9.1"
+  }
+}
