@@ -10,33 +10,38 @@
 </head>
 
 <body>
-    <!-- login | register Form. -->
-    <div class="loginPageElements">
-        <div class='logo'>
-            <!-- logo -->
-            <img src="../logoMUP/logoMUP.png" alt="logoMUP">
+    <div class="bothContainers">
+        <div class="leftContainer">
+            <div class="logo">
+                <img src="../logoMUP/logoMUP.png">
+            </div>
+            <div class="describeApp">
+                <div class="listDescribeApp">
+                    <ul style="list-style-type:circle;">
+                        <li>Get your Party started</li>
+                        <li>Create or Join to a Party</li>
+                        <li>Decide which tracks should be played</li>
+                    </ul>
+                </div>
+            </div>
         </div>
-
-        <div class="formLoginElements">
-            <!-- form for login -->
-            <form action="#">
-                <!-- label for mobile devices -->
-                <label for="eMail">
-                    <span>Email</span>
-                    <input type="text" id="eMail" required>
-                </label>
-                <label for="password">
-                    <span>Password</span>
-                    <input type="password" id="password" required>
-                </label>
-                <button type="submit" id="loginButton">Login</button>
-            </form>
+        <div class="rightContainer">
+            <div class="loginRegisterLinks">
+                <span>Login Form</span>
+                <a href="./registerPage.html">Don't have an account yet?</a>
+            </div>
+            <div class="loginForm">
+                <form action="#" method="POST">
+                    <div class="inputElements">
+                        <input type="email" placeholder="E-mail" required>
+                        <input type="password" placeholder="Password" required>
+                    </div>
+            </div>
+            <div class="loginButtons">
+                <button onclick="location.href='./mainPage.html';" type="submit">Login</button>
+                </form>
+            </div>
         </div>
-
-        <!-- link for register -->
-        <footer class="register">
-            <a id="registerLink" href="registerPage.html">Not a member yet?</a>
-        </footer>
     </div>
 </body>
 

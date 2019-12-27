@@ -1,0 +1,32 @@
+body {
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+
+img {
+    width: 65%;
+    margin-top: -5%;
+    opacity: 0.5;
+}
+
+span {
+    color: white;
+}
+
+.livePartyCard {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 65%;
+    border: 1px solid red;
+}
+
+.everySong {
+    flex: 1;
+}
+
+.actionButtons {
+    flex: 1;
+}

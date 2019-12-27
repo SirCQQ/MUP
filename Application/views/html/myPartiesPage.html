@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="../css/myPartiesPage.css">
+    <title>myParties</title>
+</head>
+
+<body>
+    <div class="bothContainers">
+        <div class="leftContainer">
+            <div class="logo">
+                <img src="../logoMUP/logoMUP.png">
+            </div>
+            <div class="menu">
+                <div class="menuItems">
+                    <button class="menuButon" type="button">My Parties</button>
+                    <button onclick="location.href='./manageParty.html';" class="menuButon" type="button">Create Party</button>
+                    <button onclick="location.href='./loginPage.html';" class="menuButton" type="button">Logout</button>
+                </div>
+            </div>
+        </div>
+        <div class="rightContainer">
+            <div class="allPartyCards">
+                <div class="partyCard">
+                    <div class="deleteParty">
+                        <button onclick="location.href='./liveParty.html';" type="button">Start</button>
+                    </div>
+                    <div class="describeParty">
+                        <span>Name of Party</span>
+                        <span>#Party Code</span>
+                    </div>
+                    <div class="partyActions">
+                        <button onclick="location.href='./manageParty.html';" type="button">Edit</button>
+                        <button id="deletePartyButton" type="button">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

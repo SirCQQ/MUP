@@ -23,7 +23,6 @@ body {
 img {
     width: 320px;
     height: auto;
-    margin-top: 10%;
 }
 
 .joinPartyElements {
@@ -77,7 +76,7 @@ button {
     font-family: 'Permanent Marker', cursisve;
 }
 
-#createPartyButton {
+#myPartiesButton {
     border-radius: 0 0 0 10px;
     width: 100%;
 }
