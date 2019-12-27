@@ -1,3 +1,4 @@
 account_management: port 8000
 party_management: port 8001
 statistics and rec:port 8002
+gateway(apelat de client):port 8003

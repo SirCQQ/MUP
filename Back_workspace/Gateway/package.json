@@ -1,0 +1,17 @@
+{
+  "name": "gateway",
+  "version": "1.0.0",
+  "description": "Gateway for handling access to the microservices",
+  "main": "main.js",
+  "scripts": {
+    "test": "main.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
+    "randomstring": "^1.1.5"
+  }
+}

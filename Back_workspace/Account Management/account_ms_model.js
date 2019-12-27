@@ -25,7 +25,9 @@ function checkUsername(name) {
             // query
             line={}
             line.username=name
-            collection.find(line).limit(1).count().then(result=>{
+            collection.find(line).limit(1).count((err,result)=>{
+                if(err)
+                 reject(err);
                 if (result==0) resolve(false);
                 else resolve(true);
 
@@ -53,7 +55,7 @@ function checkEmail(email) {
             // query
             line={}
             line.email=email
-            collection.find(line).limit(1).count().then(result=>{
+            collection.find(line).limit(1).count((err,result)=>{
                 if (result==0) resolve(false);
                 else resolve(true);
 
@@ -76,10 +78,12 @@ function addUser(name,pass,mail)
     if(err)
         reject(err)
     line={}
+    
     line.username=name
-    line.password=pass
+    line.password=hashPassword(pass)
     line.email=mail
     line.status=0
+    console.log("adding line"+line)
     collection.insertOne(line,function(err,result){
         if(err)
             reject(err);
@@ -107,7 +111,7 @@ function sendMail(mail, code) {
             from: 'fiicatalog.verify@gmail.com',
             to: mail,
             subject: 'Validation code',
-            text: 'Use this code: ' + code + ' to validate your account!'
+            text: 'Use this code: ' +   code + ' to validate your account!'
         }
 
         transporter.sendMail(mailOptions, function (error, info) {
@@ -129,7 +133,7 @@ function sendMail(mail, code) {
 
 function generateCode(email) {
     return new Promise(function (resolve, reject) {
-        var mysql = require('mysql');
+        
         var randomString = require('randomstring');
 
         module.exports.getUsername(email).then(function (id) {
@@ -169,26 +173,37 @@ function generateCode(email) {
 module.exports.validateCode = function (mail, code) {
     return new Promise(function (resolve, reject) {
 
+
         module.exports.getUsername(mail).then(function (userId) {
-            console.log("user id:" + userId);
+            // console.log("user id:" + userId);
             const client = new MongoClient(uri, { useNewUrlParser: true });
             client.connect(err => {
             const collection = client.db("account_management").collection("verification");
             // perform actions on the collection object
             if(err)
-                reject(err)
-;            line={}
-            line.username=name
-            line.code=code
-            collection.find(line).limit(1).count().then(result=>{
-                if (result==0) resolve(false);
+                reject(err);
+                line={}
+            line.username=userId
+            line.activation_code=code
+            console.log(line)
+
+            collection.find(line).limit(1).count((err,result)=>{
+                if (err)
+                    reject(err)
+                console.log("code appears in db:"+result)
+                if (result==0 ) resolve(false);
                 else {
-                    collection.deleteMany(line);
-                    resolve(true);
+                    console.log("Deleting code from db")
+                    collection.deleteMany(line,(err,collection)=>{
+                        if(err) reject(err)
+                        else resolve(true)
+                        client.close();
+                    });
+                
                 }
 
             });
-            client.close();
+            
             });
             
         }); 
@@ -203,7 +218,8 @@ module.exports.activateAccount = function (mail) {
         // perform actions on the collection object
         if(err)
             reject(false)
-    
+        console.log("Activating account for mail:"+mail)
+        line={}
         line.email=mail
         collection.updateOne(line,{$set:{status:1}},function(err,result){
             if(err)
@@ -230,8 +246,8 @@ module.exports.checkStatus = function (username) {
             // query
             line={}
             line.username=username
-            collection.find(line).limit(1).then(result=>{
-                if (result.status==0)
+            collection.find(line).limit(1).toArray((err,result)=>{
+                if (result[0].status==0)
                 {
                     resolve(false)
                 }
@@ -262,18 +278,20 @@ module.exports.login = function (user_name, password) {
         line={}
         line.username=user_name
         line.status=1
-        collection.find(line).limit(1).then(result=>{
-            if (result.status==0)
+        collection.find(line).limit(1).toArray((err,result)=>{
+            if(err)
+                reject(err)
+            if(result[0].password)
             {
-                resolve(false)
-            }
-            else
-            {
-                let hash=result.password;
+                let hash=result[0].password;
                 console.log("password:"+hash);
                 if(hash)
                 resolve(bcrypt.compareSync(password,hash));
                 else reject(false);
+            }
+            else
+            {
+                resolve(false)
             }
 
         });
@@ -302,7 +320,7 @@ module.exports.updatePassword = function (email, password) {
        line={}
        line.email=email
        setter={}
-       setter.password=password
+       setter.password=hash
        collection.updateOne(line,{$set:setter},function(err,result){
         if(err)
         reject(false);
@@ -330,9 +348,11 @@ module.exports.getUsername = function (email) {
         // query
         line={}
         line.email=email
-        collection.find(line).limit(1).then(result=>{
-            
-            resolve(result.username );
+        collection.find(line).limit(1).toArray((err,result)=>{
+            if(err)
+            reject(err);
+
+            resolve(result[0].username );
         });
         client.close();
         });
@@ -354,9 +374,9 @@ module.exports.getId = function (username) {
         // query
         line={}
         line.username=username
-        collection.find(line).limit(1).then(result=>{
+        collection.find(line).limit(1).toArray((err,result)=>{
             
-            resolve(result._id);
+            resolve(result[0]._id);
         });
         client.close();
         });
@@ -374,7 +394,7 @@ module.exports.register = function (name, pass, email) {
                 checkUsername(name).then(function (bool1) {
                     if (bool1) reject('username already taken');
                     else {
-                        addUser(name, email, pass).then(function (bool2) {
+                        addUser(name, pass,email).then(function (bool2) {
                             if (bool2) {
                                 generateCode(email).then(function (bool3) {
                                     console.log("sent email generated code " + bool3);

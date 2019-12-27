@@ -2,6 +2,10 @@
 const express = require("express");
 const app = express();
 
+const jsonType = { "Access-Control-Allow-Methods": "GET,POST,DELETE", "Access-Control-Allow-Credentials": true, "Access-Control-Allow-Headers": "authorization,content-type", "Access-Control-Allow-Origin": "*", "Content-Type": "application/json" };
+const textType = { "Access-Control-Allow-Methods": "GET,POST,DELETE", "Access-Control-Allow-Credentials": true, "Access-Control-Allow-Headers": "authorization,content-type", "Access-Control-Allow-Origin": "*", "Content-Type": "text/plain" };
+const noType = { "Access-Control-Allow-Methods": "GET,POST,DELETE", "Access-Control-Allow-Credentials": true, "Access-Control-Allow-Headers": "authorization,content-type", "Access-Control-Allow-Origin": "*" };
+
 const model=require("./account_ms_model.js");
 //for working with the file system
 const fs = require('fs');
@@ -9,19 +13,23 @@ const jwt = require('jsonwebtoken');
 
 function send500Response(response,text="Internal server error") {
     response.status(500);
-    response.send("Error 500:"+text);
+    response.type('application/json')
+    response.send({"message":"Error 500:"+text});
  }
  function send401Response(response,text="Unauthorized") {
     response.status(401);
-    response.send("Error 401:"+text);
+    response.type('application/json')
+    response.send({"message":"Error 401:"+text});
  }
  function send403Response(response,text="Send valid query params") {
     response.status(403);
-    response.send("Error 403:"+text);
+    response.type('application/json')
+    response.send({"message":"Error 403:"+text});
  }
  function send404Response(response) {
     response.status(404);
-    response.send("Error 404:Page not found");
+    response.type('application/json')
+    response.send({"message":"Error 404:Page not found"});
 }
 //Script for generating a JSON web token
 function createToken(user_id) {
@@ -59,13 +67,10 @@ app.post('/login',(request,response)=>{
     var password=request.body.password;
     if(username&&password)
     {
-        console.log("User"+username);
-        console.log("Pass:"+password);
-
         model.login(username, password).then(function (resp) {
             console.log(resp);
             if (!resp) {
-               send403Response(response);
+               send403Response(response,"Invalid user/password");
             }
             else {
                  let json = { "token": createToken(username) };
@@ -152,9 +157,9 @@ app.post('/changePasswordValidate',(request,response)=>{
     var email=request.body.email;
     var code=request.body.code;
     var password=request.body.password;
-    console.log("change pass"+body['code']);  
+    console.log("change pass"+code);  
 
-         model.changePassValidate(body['email'], body['code'], body['password']).then(function (bool1) {
+         model.changePassValidate(email, code, password).then(function (bool1) {
             let json = { "status": bool1 };
             response.writeHead(200, jsonType);
             console.log(json);
