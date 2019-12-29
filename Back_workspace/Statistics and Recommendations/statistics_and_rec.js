@@ -1,6 +1,7 @@
 // Express
 const express = require("express");
 const app = express();
+const jsonType = { "Access-Control-Allow-Methods": "GET,POST,DELETE", "Access-Control-Allow-Credentials": true, "Access-Control-Allow-Headers": "authorization,content-type", "Access-Control-Allow-Origin": "*", "Content-Type": "application/json" };
 
 const model=require("./account_ms_model.js");
 //for working with the file system

@@ -22,6 +22,19 @@ const statsMsOptions={
     hostname:'localhost',
     port:8002
 }
+function getToken(request) {
+
+    //    let token=request.headers['x-access-token'] || request.headers['Authorization'];
+    try {
+        var re = new RegExp('Bearer (.*)');
+        var r = request.headers['authorization'].match(re);
+        var token = r[1];
+    }
+    catch (err) {
+        console.log(err);
+    }
+    return token;
+}
 
 function send500Response(response,text="Internal server error") {
     response.status(500);
@@ -66,6 +79,21 @@ function sendRequestWithBodyData(response,options,data)
         console.error(error)
       })
     ms_req.write(data)
+    ms_req.end()
+}
+function sendRequest(response,options)
+{
+    const ms_req=https.request(options,ms_res=>{
+        responseStatus=ms_res.statusCode
+        ms_res.on('data',d=>{
+            ms_resBody=JSON.parse(d)
+            sendMsResponse(response,responseStatus,ms_resBody)
+
+        })
+    })
+    ms_req.on('error', error => {
+        console.error(error)
+      })
     ms_req.end()
 }
 app.post('/login',(request,response)=>{
@@ -152,9 +180,11 @@ app.post('/party',(request,response)=>{
         partyMsOptions['method']='POST'
         partyMsOptions['headers']={
             'Content-Type': 'application/json',
-            'Content-Length': data.length
-    
+            'Content-Length': data.length,
+            'authorization':'Bearer '+getToken(request)
+        
         }
+        // console.log(partyMsOptions['headers'])
         sendRequestWithBodyData(response,partyMsOptions,data)
     
 
@@ -168,9 +198,11 @@ app.delete('/party',(request,response)=>{
             partyMsOptions['method']='DELETE'
             partyMsOptions['headers']={
                 'Content-Type': 'application/json',
-                'Content-Length': data.length
+                'Content-Length': data.length,
+                'authorization':'Bearer '+getToken(request)
         
             }
+            // console.log(partyMsOptions['headers'])
             sendRequestWithBodyData(response,partyMsOptions,data)
         
 
@@ -184,7 +216,8 @@ app.post('/addUser',(request,response)=>{
             partyMsOptions['method']='POST'
             partyMsOptions['headers']={
                 'Content-Type': 'application/json',
-                'Content-Length': data.length
+                'Content-Length': data.length,
+                'authorization':'Bearer '+getToken(request)
         
             }
             sendRequestWithBodyData(response,partyMsOptions,data)
@@ -200,7 +233,8 @@ app.delete('/deleteUser',(request,response)=>{
             partyMsOptions['method']='DELETE'
             partyMsOptions['headers']={
                 'Content-Type': 'application/json',
-                'Content-Length': data.length
+                'Content-Length': data.length,
+                'authorization':'Bearer '+getToken(request)
         
             }
             sendRequestWithBodyData(response,partyMsOptions,data)
@@ -215,7 +249,8 @@ app.post('/addSong',(request,response)=>{
         partyMsOptions['method']='POST'
         partyMsOptions['headers']={
             'Content-Type': 'application/json',
-            'Content-Length': data.length
+            'Content-Length': data.length,
+            'authorization':'Bearer '+getToken(request)
     
         }
         sendRequestWithBodyData(response,partyMsOptions,data)
@@ -230,7 +265,8 @@ app.post('/vote',(request,response)=>{
             partyMsOptions['method']='POST'
             partyMsOptions['headers']={
                 'Content-Type': 'application/json',
-                'Content-Length': data.length
+                'Content-Length': data.length,
+                'authorization':'Bearer '+getToken(request)
         
             }
             sendRequestWithBodyData(response,partyMsOptions,data)
@@ -239,6 +275,14 @@ app.post('/vote',(request,response)=>{
 })
 
 app.get('/initialSongList',(request,response)=>{
+        // extract from request
+        data=request.query.party_name   
+        // create new request
+        partyMsOptions['path']='/initialSongList?party_name='+data
+        partyMsOptions['method']='GET'
+
+        sendRequest(response,partyMsOptions)
+    
 
 })
 // statistcs and recommendations
