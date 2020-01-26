@@ -56,7 +56,7 @@ function checkEmail(email) {
             line = {}
             line.email = email
             collection.find(line).limit(1).count((err, result) => {
-                if (result == 0) resolve(false);
+                if (result == 0) reject(false);
                 else resolve(true);
 
             });
@@ -163,7 +163,7 @@ function generateCode(email) {
                 }).catch((err) => setImmediate(() => { console.log(err); reject(-1); }));
             });
 
-        });
+        }).catch((err) => setImmediate(() => { console.log(err); reject(-1); }));
 
 
     });
@@ -191,7 +191,7 @@ module.exports.validateCode = function (mail, code) {
                     if (err)
                         reject(err)
                     console.log("code appears in db:" + result)
-                    if (result == 0) resolve(false);
+                    if (result == 0) reject(false);
                     else {
                         console.log("Deleting code from db")
                         collection.deleteMany(line, (err, collection) => {
@@ -206,7 +206,7 @@ module.exports.validateCode = function (mail, code) {
 
             });
 
-        });
+        }).catch((err) => setImmediate(() => { console.log(err); reject(-1); }));
     });
 
 }
@@ -351,8 +351,10 @@ module.exports.getUsername = function (email) {
             collection.find(line).limit(1).toArray((err, result) => {
                 if (err)
                     reject(err);
-
-                resolve(result[0].username);
+                if(result[0])
+                    resolve(result[0].username);
+                else 
+                reject(false);
             });
             client.close();
         });
@@ -417,10 +419,11 @@ module.exports.changePassword = function (email) {
                 generateCode(email).then(function (bool1) {
                     console.log("code generated");
                     if (bool1) resolve(true);
-                    resolve(false);
-                });
+                    reject(false);
+                }).catch((err) => setImmediate(() => { console.log(err); reject(err); }));
             }
-        })
+            else reject(false);
+        }).catch((err) => setImmediate(() => { console.log(err); reject(err); }));
 
 
     })
@@ -433,10 +436,10 @@ module.exports.changePassValidate = function (email, code, password) {
             if (bool) {
                 module.exports.updatePassword(email, password).then(function (bool1) {
                     resolve(bool1);
-                });
+                }).catch((err) => setImmediate(() => { console.log(err); reject(err); }));
             }
-            else resolve(false);
-        });
+            else reject(false);
+        }).catch((err) => setImmediate(() => { console.log(err); reject(err); }));
     });
 }
 
