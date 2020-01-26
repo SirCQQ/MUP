@@ -16,26 +16,26 @@ function checkUsername(name) {
         const client = new MongoClient(uri, { useNewUrlParser: true });
         // connect to mongodb server
         client.connect(err => {
-            if(err)
+            if (err)
                 return reject(err);
             console.log("connected!");
             // select collection
             const collection = client.db("account_management").collection("user_credentials");
 
             // query
-            line={}
-            line.username=name
-            collection.find(line).limit(1).count((err,result)=>{
-                if(err)
-                 reject(err);
-                if (result==0) resolve(false);
+            line = {}
+            line.username = name
+            collection.find(line).limit(1).count((err, result) => {
+                if (err)
+                    reject(err);
+                if (result == 0) resolve(false);
                 else resolve(true);
 
             });
             client.close();
         });
-    
-        })
+
+    })
 
 }
 //true if mail exists;false otherwise (resolve;resolve;reject if cannot conenct to db)
@@ -46,52 +46,52 @@ function checkEmail(email) {
         const client = new MongoClient(uri, { useNewUrlParser: true });
         // connect to mongodb server
         client.connect(err => {
-            if(err)
+            if (err)
                 return reject(err);
             console.log("connected!");
             // select collection
             const collection = client.db("account_management").collection("user_credentials");
 
             // query
-            line={}
-            line.email=email
-            collection.find(line).limit(1).count((err,result)=>{
-                if (result==0) resolve(false);
+            line = {}
+            line.email = email
+            collection.find(line).limit(1).count((err, result) => {
+                if (result == 0) resolve(false);
                 else resolve(true);
 
             });
             client.close();
         });
-    
-        })
+
+    })
 
 }
 //resolve true if user was added,reject err if cannot conn db or user could not be added
 
-function addUser(name,pass,mail)
-{   return new Promise(function (resolve, reject) {
+function addUser(name, pass, mail) {
+    return new Promise(function (resolve, reject) {
 
-    const client = new MongoClient(uri, { useNewUrlParser: true });
-    client.connect(err => {
-    const collection = client.db("account_management").collection("user_credentials");
-    // perform actions on the collection object
-    if(err)
-        reject(err)
-    line={}
-    
-    line.username=name
-    line.password=hashPassword(pass)
-    line.email=mail
-    line.status=0
-    console.log("adding line"+line)
-    collection.insertOne(line,function(err,result){
-        if(err)
-            reject(err);
-        else
-            resolve(true);
-    });
-    client.close();
-    });
+        const client = new MongoClient(uri, { useNewUrlParser: true });
+        client.connect(err => {
+            const collection = client.db("account_management").collection("user_credentials");
+            // perform actions on the collection object
+            if (err)
+                reject(err)
+            line = {}
+
+            line.username = name
+            line.password = hashPassword(pass)
+            line.email = mail
+            line.status = 0
+            console.log("adding line" + line)
+            collection.insertOne(line, function (err, result) {
+                if (err)
+                    reject(err);
+                else
+                    resolve(true);
+            });
+            client.close();
+        });
 
     })
 }
@@ -111,7 +111,7 @@ function sendMail(mail, code) {
             from: 'fiicatalog.verify@gmail.com',
             to: mail,
             subject: 'Validation code',
-            text: 'Use this code: ' +   code + ' to validate your account!'
+            text: 'Use this code: ' + code + ' to validate your account!'
         }
 
         transporter.sendMail(mailOptions, function (error, info) {
@@ -133,28 +133,28 @@ function sendMail(mail, code) {
 
 function generateCode(email) {
     return new Promise(function (resolve, reject) {
-        
+
         var randomString = require('randomstring');
 
         module.exports.getUsername(email).then(function (id) {
             const client = new MongoClient(uri, { useNewUrlParser: true });
             client.connect(err => {
-            const collection = client.db("account_management").collection("verification");
-            // perform actions on the collection object
-            if(err)
-                reject(false)
-                
-            let code = randomString.generate(20);
-            console.log("codes:" + id + " " + code);
+                const collection = client.db("account_management").collection("verification");
+                // perform actions on the collection object
+                if (err)
+                    reject(false)
 
-                line={}
-                line.username=id
-                line.activation_code=code
-                collection.insertOne(line,function(err,result){
-                    if(err)
-                    reject(false);
+                let code = randomString.generate(20);
+                console.log("codes:" + id + " " + code);
+
+                line = {}
+                line.username = id
+                line.activation_code = code
+                collection.insertOne(line, function (err, result) {
+                    if (err)
+                        reject(false);
                     else
-                    resolve(true);
+                        resolve(true);
                 });
                 client.close();
                 sendMail(email, code).then(function (bool) {
@@ -178,35 +178,35 @@ module.exports.validateCode = function (mail, code) {
             // console.log("user id:" + userId);
             const client = new MongoClient(uri, { useNewUrlParser: true });
             client.connect(err => {
-            const collection = client.db("account_management").collection("verification");
-            // perform actions on the collection object
-            if(err)
-                reject(err);
-                line={}
-            line.username=userId
-            line.activation_code=code
-            console.log(line)
-
-            collection.find(line).limit(1).count((err,result)=>{
+                const collection = client.db("account_management").collection("verification");
+                // perform actions on the collection object
                 if (err)
-                    reject(err)
-                console.log("code appears in db:"+result)
-                if (result==0 ) resolve(false);
-                else {
-                    console.log("Deleting code from db")
-                    collection.deleteMany(line,(err,collection)=>{
-                        if(err) reject(err)
-                        else resolve(true)
-                        client.close();
-                    });
-                
-                }
+                    reject(err);
+                line = {}
+                line.username = userId
+                line.activation_code = code
+                console.log(line)
+
+                collection.find(line).limit(1).count((err, result) => {
+                    if (err)
+                        reject(err)
+                    console.log("code appears in db:" + result)
+                    if (result == 0) resolve(false);
+                    else {
+                        console.log("Deleting code from db")
+                        collection.deleteMany(line, (err, collection) => {
+                            if (err) reject(err)
+                            else resolve(true)
+                            client.close();
+                        });
+
+                    }
+
+                });
 
             });
-            
-            });
-            
-        }); 
+
+        });
     });
 
 }
@@ -214,20 +214,20 @@ module.exports.activateAccount = function (mail) {
     return new Promise(function (resolve, reject) {
         const client = new MongoClient(uri, { useNewUrlParser: true });
         client.connect(err => {
-        const collection = client.db("account_management").collection("user_credentials");
-        // perform actions on the collection object
-        if(err)
-            reject(false)
-        console.log("Activating account for mail:"+mail)
-        line={}
-        line.email=mail
-        collection.updateOne(line,{$set:{status:1}},function(err,result){
-            if(err)
-            reject(false);
-            else
-            resolve(true);
-        });
-        client.close();
+            const collection = client.db("account_management").collection("user_credentials");
+            // perform actions on the collection object
+            if (err)
+                reject(false)
+            console.log("Activating account for mail:" + mail)
+            line = {}
+            line.email = mail
+            collection.updateOne(line, { $set: { status: 1 } }, function (err, result) {
+                if (err)
+                    reject(false);
+                else
+                    resolve(true);
+            });
+            client.close();
         });
     })
 }
@@ -237,18 +237,17 @@ module.exports.checkStatus = function (username) {
         const client = new MongoClient(uri, { useNewUrlParser: true });
         // connect to mongodb server
         client.connect(err => {
-            if(err)
+            if (err)
                 return reject(err);
             console.log("connected!");
             // select collection
             const collection = client.db("account_management").collection("user_credentials");
 
             // query
-            line={}
-            line.username=username
-            collection.find(line).limit(1).toArray((err,result)=>{
-                if (result[0].status==0)
-                {
+            line = {}
+            line.username = username
+            collection.find(line).limit(1).toArray((err, result) => {
+                if (result[0].status == 0) {
                     resolve(false)
                 }
                 else resolve(true);
@@ -263,74 +262,75 @@ module.exports.checkStatus = function (username) {
 
 module.exports.login = function (user_name, password) {
     return new Promise(function (resolve, reject) {
-       // create new client
-       const client = new MongoClient(uri, { useNewUrlParser: true });
-       // connect to mongodb server
-       client.connect(err => {
-        if(err)
-            return reject(err);
-        console.log("connected!");
-        // select collection
-        console.log("username:"+user_name);
-        const collection = client.db("account_management").collection("user_credentials");
+        // create new client
+        const client = new MongoClient(uri, { useNewUrlParser: true });
+        // connect to mongodb server
+        client.connect(err => {
+            if (err)
+                return reject(err);
+            console.log("connected!");
+            // select collection
+            console.log("username:" + user_name);
+            const collection = client.db("account_management").collection("user_credentials");
 
-        // query
-        line={}
-        line.username=user_name
-        line.status=1
-        collection.find(line).limit(1).toArray((err,result)=>{
-            if(err)
-                reject(err)
-            if(result[0].password)
-            {
-                let hash=result[0].password;
-                console.log("password:"+hash);
-                if(hash)
-                resolve(bcrypt.compareSync(password,hash));
-                else reject(false);
-            }
-            else
-            {
-                resolve(false)
-            }
+            // query
+            line = {}
+            line.username = user_name
+            line.status = 1
+            collection.find(line).limit(1).toArray((err, result) => {
+                if (err)
+                    reject(err)
+                if (result[0]) {
+                    if (result[0].password) {
+                        let hash = result[0].password;
+                        console.log("password:" + hash);
+                        if (hash)
+                            resolve(bcrypt.compareSync(password, hash));
+                        else reject(false);
+                    }
+                    else {
+                        resolve(false)
+                    }
+                }
+                else resolve(false)
 
-        });
-        client.close();
+            });
+            client.close();
         });
 
     })
 }
 module.exports.updatePassword = function (email, password) {
     return new Promise(function (resolve, reject) {
-      // create new client
-      const client = new MongoClient(uri, { useNewUrlParser: true });
-      // connect to mongodb server
-      client.connect(err => {
-       if(err)
-           return reject(false);
-       console.log("connected!");
-       // select collection
-       console.log("unhashed pass:"+password);
-        let hash = hashPassword(password);
-        console.log("new password:"+hash);
+        // create new client
+        const client = new MongoClient(uri, { useNewUrlParser: true });
+        // connect to mongodb server
+        client.connect(err => {
+            if (err)
+                return reject(false);
+            console.log("connected!");
+            // select collection
+            console.log("unhashed pass:" + password);
+            let hash = hashPassword(password);
+            console.log("new password:" + hash);
 
-       const collection = client.db("account_management").collection("user_credentials");
+            const collection = client.db("account_management").collection("user_credentials");
 
-       // query
-       line={}
-       line.email=email
-       setter={}
-       setter.password=hash
-       collection.updateOne(line,{$set:setter},function(err,result){
-        if(err)
-        reject(false);
-        else
-        resolve(true);
+            // query
+            line = {}
+            line.email = email
+            setter = {}
+            setter.password = hash
+            collection.updateOne(line, { $set: setter }, function (err, result) {
+                if (err)
+                    reject(false);
+                else
+                    resolve(true);
+            });
+            client.close();
         });
-        client.close();
-        });
 
-   }).catch((err) => setImmediate(() => { console.log(err); }));
+    }).catch((err) => setImmediate(() => { console.log(err); }));
 }
 
 module.exports.getUsername = function (email) {
@@ -339,22 +339,22 @@ module.exports.getUsername = function (email) {
         const client = new MongoClient(uri, { useNewUrlParser: true });
         // connect to mongodb server
         client.connect(err => {
-        if(err)
-            return reject(err);
-        console.log("connected!");
-        // select collection
-        const collection = client.db("account_management").collection("user_credentials");
+            if (err)
+                return reject(err);
+            console.log("connected!");
+            // select collection
+            const collection = client.db("account_management").collection("user_credentials");
 
-        // query
-        line={}
-        line.email=email
-        collection.find(line).limit(1).toArray((err,result)=>{
-            if(err)
-            reject(err);
+            // query
+            line = {}
+            line.email = email
+            collection.find(line).limit(1).toArray((err, result) => {
+                if (err)
+                    reject(err);
 
-            resolve(result[0].username );
-        });
-        client.close();
+                resolve(result[0].username);
+            });
+            client.close();
         });
 
     })
@@ -365,20 +365,20 @@ module.exports.getId = function (username) {
         const client = new MongoClient(uri, { useNewUrlParser: true });
         // connect to mongodb server
         client.connect(err => {
-        if(err)
-            return reject(err);
-        console.log("connected!");
-        // select collection
-        const collection = client.db("account_management").collection("user_credentials");
+            if (err)
+                return reject(err);
+            console.log("connected!");
+            // select collection
+            const collection = client.db("account_management").collection("user_credentials");
 
-        // query
-        line={}
-        line.username=username
-        collection.find(line).limit(1).toArray((err,result)=>{
-            
-            resolve(result[0]._id);
-        });
-        client.close();
+            // query
+            line = {}
+            line.username = username
+            collection.find(line).limit(1).toArray((err, result) => {
+
+                resolve(result[0]._id);
+            });
+            client.close();
         });
 
     })
@@ -394,7 +394,7 @@ module.exports.register = function (name, pass, email) {
                 checkUsername(name).then(function (bool1) {
                     if (bool1) reject('username already taken');
                     else {
-                        addUser(name, pass,email).then(function (bool2) {
+                        addUser(name, pass, email).then(function (bool2) {
                             if (bool2) {
                                 generateCode(email).then(function (bool3) {
                                     console.log("sent email generated code " + bool3);
@@ -431,7 +431,7 @@ module.exports.changePassValidate = function (email, code, password) {
 
         module.exports.validateCode(email, code).then(function (bool) {
             if (bool) {
-                module.exports.updatePassword(email,password).then(function (bool1) {
+                module.exports.updatePassword(email, password).then(function (bool1) {
                     resolve(bool1);
                 });
             }
