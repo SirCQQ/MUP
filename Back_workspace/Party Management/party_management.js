@@ -6,6 +6,7 @@ const model = require("./party_ms_model.js");
 //for working with the file system
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
+var cors = require('cors');
 
 const jsonType = { "Access-Control-Allow-Methods": "GET,POST,DELETE", "Access-Control-Allow-Credentials": true, "Access-Control-Allow-Headers": "authorization,content-type", "Access-Control-Allow-Origin": "*", "Content-Type": "application/json" };
 
@@ -33,6 +34,7 @@ function send404Response(response) {
 
 app.use(express.json());       // to support JSON-encoded bodies
 app.use(express.urlencoded()); // to support URL-encoded bodies
+app.use(cors());
 
 function getToken(request) {
 
@@ -82,18 +84,17 @@ app.post('/party', (request, response) => {
             console.log(legit.user_id)
             if (party_name) {
                 model.addParty(party_name, legit.user_id).then(
-                    function (bool) {       
-                        if(bool)
-                        {
-                            model.addUser(party_name,legit.user_id,legit.user_id).then((bool2)=>{
+                    function (bool) {
+                        if (bool) {
+                            model.addUser(party_name, legit.user_id, legit.user_id).then((bool2) => {
                                 let json = { "status": bool2 };
                                 console.log(json);
                                 response.writeHead(200, jsonType);
                                 response.write(JSON.stringify(json));
                                 response.end();
                             }).catch((err) => setImmediate(() => { send500Response(response); console.log(err); }));
-                        } 
-                        else send500Response(response);           
+                        }
+                        else send500Response(response);
 
 
                     }).catch((err) => setImmediate(() => { send500Response(response); console.log(err); }));
@@ -108,7 +109,7 @@ app.post('/party', (request, response) => {
 
 app.delete('/party', (request, response) => {
     var party_name = request.body.party_name
-    token=getToken(request)
+    token = getToken(request)
     if (token) {
         let legit = validateToken(token, response);
         if (legit) {
@@ -143,7 +144,7 @@ app.delete('/party', (request, response) => {
 app.post('/addUser', (request, response) => {
     var username = request.body.username
     var party_name = request.body.party_name
-    token=getToken(request)
+    token = getToken(request)
     if (token) {
         let legit = validateToken(token, response);
         if (legit) {
@@ -178,7 +179,7 @@ app.post('/addUser', (request, response) => {
 app.delete('/deleteUser', (request, response) => {
     var username = request.body.username
     var party_name = request.body.party_name
-    token=getToken(request)
+    token = getToken(request)
     if (token) {
         let legit = validateToken(token, response);
         if (legit) {
@@ -213,16 +214,20 @@ app.delete('/deleteUser', (request, response) => {
 app.post('/addSong', (request, response) => {
     var artist = request.body.artist
     var title = request.body.title
-    var party = request.body.party
-    token=getToken(request)
+    var genre = request.body.genre
+    var album = request.body.album
+    var party = request.body.party_id
+    console.log("Adding song:")
+    console.log(request.body)
+    token = getToken(request)
     if (token) {
         let legit = validateToken(token, response);
         if (legit) {
             console.log(legit.user_id)
             model.isAdmin(party, legit.user_id).then((check) => {
                 if (check) {
-                    if (party && title && artist) {
-                        model.addSong(artist, title, party).then(
+                    if (party && title && artist && genre && album) {
+                        model.addSong(artist, title, genre, album, party).then(
                             function (bool) {
                                 let json = { "status": bool };
                                 console.log(json);
@@ -249,7 +254,7 @@ app.post('/addSong', (request, response) => {
 app.post('/vote', (request, response) => {
     var song_id = request.body.song_id
     var party_id = request.body.party_id
-    token=getToken(request)
+    token = getToken(request)
     if (token) {
         let legit = validateToken(token, response);
         if (legit) {
@@ -281,28 +286,28 @@ app.post('/vote', (request, response) => {
     else send401Response(response, 'No jwt found inside the authorization(bearer')
 });
 
-    app.get('/initialSongList', (request, response) => {
-        let party_name = request.query.party_name
-                if (party_name) {
-                    model.getSongList(party_name).then(
-                        function (json) {
+app.get('/initialSongList', (request, response) => {
+    let party_name = request.query.party_name
+    if (party_name) {
+        model.getSongList(party_name).then(
+            function (json) {
 
-                            console.log("list_obj:"+json);
-                            response.writeHead(200, jsonType);
-                            response.write(JSON.stringify(json));
-                            response.end();
+                console.log("list_obj:" + json);
+                response.writeHead(200, jsonType);
+                response.write(JSON.stringify(json));
+                response.end();
 
-                        }).catch((err) => setImmediate(() => { send500Response(response); console.log(err); }));
+            }).catch((err) => setImmediate(() => { send500Response(response); console.log(err); }));
 
-                }
-                else send403Response(response)
+    }
+    else send403Response(response)
 
-    })
+})
 
-    app.use(function (req, res, next) {
-        send404Response(res);
-    })
+app.use(function (req, res, next) {
+    send404Response(res);
+})
 
-    app.listen(8001, () => {
-        console.log("Party Management Service is running");
-    })
+app.listen(8001, () => {
+    console.log("Party Management Service is running");
+})

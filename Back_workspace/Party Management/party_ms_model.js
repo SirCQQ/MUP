@@ -74,12 +74,15 @@ module.exports.isParticipant = function (party_name, user) {
             line.party_name = party_name
 
             collection.find(line).limit(1).toArray((err, result) => {
-                l = result[0].user_list.length
+                if(result[0])
+                {l = result[0].user_list.length
                 for (let i = 0; i < l; i++) {
                     if (result[0].user_list[i] == user)
                         resolve(true)
                 }
                 resolve(false);
+                }
+                else resolve(false);
 
             });
             client.close();
@@ -232,7 +235,7 @@ function addSongToParties(partyName, title) {
     });
 
 }
-function addSongToSongs(artist, title) {
+function addSongToSongs(artist, title,genre,album) {
     return new Promise(function (resolve, reject) {
 
 
@@ -246,6 +249,9 @@ function addSongToSongs(artist, title) {
 
             line.artist = artist
             line.title = title
+            line.genre=genre
+            line.album=album
+            
             console.log("adding line" + line)
             collection.insertOne(line, function (err, result) {
                 if (err)
@@ -261,9 +267,9 @@ function addSongToSongs(artist, title) {
 
 
 }
-module.exports.addSong = function (artist, title, party) {
+module.exports.addSong = function (artist, title,genre,album, party) {
     return new Promise(function (resolve, reject) {
-        addSongToSongs(artist, title).then((bool) => {
+        addSongToSongs(artist, title,genre,album).then((bool) => {
             if (bool) {
                 addSongToParties(party, title).then((bool2) => {
                     if (bool2)

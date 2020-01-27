@@ -13,6 +13,8 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.1.6",
     "fs": "0.0.1-security",
+    "http": "0.0.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.14",
     "socket.io-stream": "^0.9.1"
   }

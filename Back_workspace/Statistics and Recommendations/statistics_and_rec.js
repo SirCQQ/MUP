@@ -1,12 +1,15 @@
 // Express
 const express = require("express");
 const app = express();
+
 const jsonType = { "Access-Control-Allow-Methods": "GET,POST,DELETE", "Access-Control-Allow-Credentials": true, "Access-Control-Allow-Headers": "authorization,content-type", "Access-Control-Allow-Origin": "*", "Content-Type": "application/json" };
 
 const model=require("./account_ms_model.js");
 //for working with the file system
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
+
+const cors = require('cors');
 
 function send500Response(response,text="Internal server error") {
     response.status(500);
@@ -31,7 +34,7 @@ function send500Response(response,text="Internal server error") {
 
 app.use(express.json());       // to support JSON-encoded bodies
 app.use(express.urlencoded()); // to support URL-encoded bodies
-
+app.use(cors());
 function getToken(request, response) {
 
     //    let token=request.headers['x-access-token'] || request.headers['Authorization'];
