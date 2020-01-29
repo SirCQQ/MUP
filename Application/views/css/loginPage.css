@@ -116,9 +116,6 @@ input {
     background: transparent;
     text-align: center;
     color: rgba(92, 42, 98, 0.7);
-}
-
-input[type='password'] {
     margin-top: 10px;
 }
 
@@ -144,7 +141,6 @@ button {
     font-family: 'Permanent Marker', cursisve;
     width: 60%;
     margin-left: 20%;
-    margin-top: -15%;
 }
 
 a {
