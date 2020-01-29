@@ -190,3 +190,33 @@ module.exports.addSongToDb = function (artist, title, uploader_id, party_id, pat
 
     });
 }
+module.exports.getSongLocation=function(song_id){
+    return new Promise(function (resolve, reject) {
+        // create new client
+        const client = new MongoClient(uri, { useNewUrlParser: true });
+        // connect to mongodb server
+        client.connect(err => {
+            if (err)
+                return reject(err);
+            console.log("connected!");
+            // select collection
+            const collection = client.db("song_streaming").collection("songs");
+
+            // query
+            line = {}
+            line.song_id = song_id
+            console.log(song_id)
+            collection.find(line).limit(1).toArray((err, result) => {
+                if(err)
+                reject(err)
+                if (result[0]) {
+                    resolve(result[0].song_path)
+                }
+                else reject(false);
+
+            });
+            client.close();
+        });
+
+    })
+}
