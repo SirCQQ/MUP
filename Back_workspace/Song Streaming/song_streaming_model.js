@@ -108,6 +108,7 @@ function isNew(song_id) {
 }
 
 function addNewSongEntry(song_id, uploader, song_path, party_name) {
+    return new Promise(function (resolve, reject) {
     const client = new MongoClient(uri, { useNewUrlParser: true });
     client.connect(err => {
         const collection = client.db("song_streaming").collection("songs");
@@ -129,7 +130,7 @@ function addNewSongEntry(song_id, uploader, song_path, party_name) {
         });
         client.close();
     });
-
+});
 }
 function appendToList(song_id, party_name) {
     return new Promise(function (resolve, reject) {

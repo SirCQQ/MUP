@@ -1,8 +1,6 @@
 // Express
 const express = require("express");
 const app = express();
-// var WebSocketServer = require("ws").Server,
-
 const jsonType = { "Access-Control-Allow-Methods": "GET,POST,DELETE", "Access-Control-Allow-Credentials": true, "Access-Control-Allow-Headers": "authorization,content-type", "Access-Control-Allow-Origin": "*", "Content-Type": "application/json" };
 
 const model=require("./statistics_and_rec_model.js");
