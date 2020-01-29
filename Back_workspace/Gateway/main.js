@@ -331,7 +331,12 @@ app.post('/vote', (request, response) => {
     // create new request
     partyMsOptions['path'] = '/vote'
     partyMsOptions['method'] = 'POST'
-    
+    partyMsOptions['headers'] = {
+        'Content-Type': 'application/json',
+        'Content-Length': data.length
+
+    }
+    console.log(data)
     
     sendRequestWithBodyData(response, partyMsOptions, data)
 

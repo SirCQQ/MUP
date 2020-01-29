@@ -48,8 +48,13 @@ const partyMsOptions = {
 
 function getSongList(party_name) {
     return new Promise(function (resolve, reject) {
+        const partyMsOptions = {
+            hostname: 'localhost',
+            port: 8001
+        }        
         partyMsOptions['path'] = '/songList?party_name=' + party_name
         partyMsOptions['method'] = 'GET'
+        console.log("getting song list:")
 
         const ms_req = https.request(partyMsOptions, ms_res => {
             responseStatus = ms_res.statusCode
@@ -78,14 +83,7 @@ function checkUserParticipant(user_id, party) {
     return false
 }
 function isDifferentState(user_id, party, is_dancing) {
-    l = party.user_list.length;
-    for (i = 0; i < l; i++) {
-        if (party.user_list[i].user_id == user_id) {
-            if (party.user_list[i].is_dancing == is_dancing)
-                return false
-            else return true
-        }
-    }
+    return true
 }
 function getSongDetails(party, song_id) {
     details = {}
@@ -102,20 +100,33 @@ function getSongDetails(party, song_id) {
 
 function sendVote(party_id, song_id, vote_value) {
     return new Promise(function (resolve, reject) {
+        data = {}
+        data["party_id"] = party_id
+        data["song_id"] = song_id
+        data["vote_value"] = vote_value
+        data = JSON.stringify(data)
+        // console.log(data)
     // create new request
+    const partyMsOptions = {
+        hostname: 'localhost',
+        port: 8001
+    }
+    
     partyMsOptions['path'] = '/vote'
     partyMsOptions['method'] = 'POST'
-    data = {}
-    data["party_id"] = party_id
-    data["song_id"] = song_id
-    data["vote_value"] = vote_value
-    data = JSON.stringify(data)
+    partyMsOptions['headers'] = {
+        'Content-Type': 'application/json',
+        'Content-Length': data.length
+
+    }
+
 
     const ms_req = https.request(partyMsOptions, ms_res => {
         responseStatus = ms_res.statusCode
         ms_res.on('data', d => {
             ms_resBody = JSON.parse(d)
-            if (ms_res.statusCode == 200 && ms_resBody.status == true)
+            // console.log(data)
+            if (responseStatus == 200 && ms_resBody["status"] == true)
                 resolve(true)
             else reject(false)
         })
@@ -163,10 +174,15 @@ function sendDancing(party_id, user_id, is_dancing) {
 function sendPlayed(party_id, song_id) {
     return new Promise(function (resolve, reject) {
         j = { "party_id": party_id, "song_id": song_id }
-
+        
         // extract from request
         data = JSON.stringify(j)
         // create new request
+        const partyMsOptions = {
+            hostname: 'localhost',
+            port: 8001
+        }
+        
         partyMsOptions['path'] = '/setPlayed'
         partyMsOptions['method'] = 'POST'
         partyMsOptions['headers'] = {
@@ -174,14 +190,17 @@ function sendPlayed(party_id, song_id) {
             'Content-Length': data.length,
 
         }
-
-
-        const ms_req = https.request(options, ms_res => {
+        const ms_req = https.request(partyMsOptions, ms_res => {
             responseStatus = ms_res.statusCode
+            console.log("responseStatus:"+responseStatus)
             ms_res.on('data', d => {
                 ms_resBody = JSON.parse(d)
-                if (responseStatus == 200 && ms_resBody.status == true)
-                    resolve(true)
+                
+                if (responseStatus == 200 && ms_resBody['status']==true)
+                    {
+                        console.log("Sent "+party_id+" played "+song_id)
+                        resolve(true)
+                    }
                 else reject(false)
             })
         })
@@ -205,25 +224,29 @@ function updateScores(party, song_id) {
     for (i = 0; i < l; i++) {
         if (party.song_list[i].song_id != song_id) {
             if (party.song_list[i].artist == song_details.artist) {
-                console.log("bingo")
-                party.song_list[i].vote_count += 2
+                console.log("bingo artist")
+                party.song_list[i].vote_count += 1
                 promises.push(sendVote(party.party_id, party.song_list[i].song_id, 1))
             }
             if (party.song_list[i].genre == song_details.genre) {
+                console.log("bingo gen")
                 party.song_list[i].vote_count += 2
                 promises.push(sendVote(party.party_id, party.song_list[i].song_id, 2))
             }
             if (party.song_list[i].album == song_details.album) {
+                console.log("bingo album")
                 party.song_list[i].vote_count += 1
                 promises.push(sendVote(party.party_id, party.song_list[i].song_id, 1))
             }
         }
         else {
             party.song_list[i].vote_count += 1
+            party.song_list[i].played=true
             promises.push(sendVote(party.party_id, party.song_list[i].song_id, 1))
         }
     }
     Promise.all(promises).then(()=>{
+
         resolve(party)
 
     }).catch((e)=>{reject(e)})
@@ -236,22 +259,23 @@ module.exports.updateParty = function (user_id, party_id, song_id, is_dancing) {
         getSongList(party_id).then((party) => {
             if (party) {
                 // console.log(party)
+                console.log("song list got")
                 if (checkUserParticipant(user_id, party)) {
                     if (isDifferentState(user_id, party, is_dancing)) {
                         sendPlayed(party_id, song_id).then((bool) => {
                             if (bool) {
                                 if (is_dancing == true)
-                                    sendDancing(party_id, user_id, is_dancing).then((bool) => {
-                                        if (bool) {
+                                    // sendDancing(party_id, user_id, is_dancing).then((bool) => {
+                                        // if (bool) {
                                             updateScores(party, song_id).then((party)=>{
                                                 if(party)
                                                 resolve(party)
                                                 else reject(false)
                                             }).catch((err) => setImmediate(() => { console.log(err); reject(false) }));
                                             
-                                        }
-                                        else reject(false)
-                                    }).catch((err) => setImmediate(() => { console.log(err); reject(false) }));
+                                        // }
+                                        // else reject(false)
+                                    // }).catch((err) => setImmediate(() => { console.log(err); reject(false) }));
 
                                 resolve(party)
                             }

@@ -323,7 +323,7 @@ module.exports.setDancing = function (party_id, user_id, is_dancing) {
             // query
             line={"party_id":party_id,"user_list.user_id":user_id}
  
-            setter = {"user_list.is_dancing":is_dancing}
+            setter = {"user_list.$.is_dancing":is_dancing}
             setter.is_dancing = is_dancing
                       collection.updateOne(line, { $set: setter }, function (err, result) {
                 if (err)
@@ -348,13 +348,12 @@ module.exports.setPlayed = function (party_id, song_id) {
                 reject(err)
 
             // query
-            line={"party_id":party_id,"song_list.song_id":song_id}
+            line={"song_list.song_id":song_id}
  
-            setter = {"song_list.played":true}
-            console.log(JSON.stringify(line)+JSON.stringify(setter))
+            setter = {"song_list.$.played":true}
             collection.updateOne(line, { $set: setter }, function (err, result) {
                 if (err)
-                    reject(false);
+                    reject(err);
                 else
                     resolve(true);
             });
@@ -399,7 +398,7 @@ module.exports.getSongList = function (party_name) {
                     for (let i = 0; i < l; i++) {
                         userObj = {}
                         userObj.user_id = result[0].user_list[i]
-                        userObj.is_dancing = false
+                        // userObj.is_dancing = false
                         songListObj.user_list.push(userObj)
                     }
 

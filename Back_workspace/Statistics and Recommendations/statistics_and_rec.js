@@ -1,6 +1,7 @@
 // Express
 const express = require("express");
 const app = express();
+var WebSocketServer = require("ws").Server,
 
 const jsonType = { "Access-Control-Allow-Methods": "GET,POST,DELETE", "Access-Control-Allow-Credentials": true, "Access-Control-Allow-Headers": "authorization,content-type", "Access-Control-Allow-Origin": "*", "Content-Type": "application/json" };
 
@@ -78,13 +79,14 @@ app.post('/sendUpdate',(request,response)=>{
     party_id=request.body.party_id
     is_dancing=request.body.is_dancing
     song_id=request.body.song_playing_id
+    // console.log(JSON.stringify(request.body))
     if(user_id&&party_id&&song_id)
     {
         model.updateParty(user_id,party_id,song_id,is_dancing).then((json)=>{
             if(json)
             {
                 json["song_list"]=json["song_list"].sort(function(a,b){return b["vote_count"]-a["vote_count"];})
-                console.log("list_obj:" + json);
+                console.log("list_obj:" + JSON.stringify(json));
                
                 response.writeHead(200, jsonType);
                 response.write(JSON.stringify(json));
@@ -98,15 +100,6 @@ app.post('/sendUpdate',(request,response)=>{
     }    
 })
 
-app.get('/userDetails',(request,response)=>{
-    var username=request.query.username
-    
-})
-
-app.get('/partyDetails',(request,response)=>{
-    var party_name=request.querty.party_name
-    
-})
 
 
 app.use(function (req, res, next) {

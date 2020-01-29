@@ -255,6 +255,8 @@ app.post('/vote', (request, response) => {
     var song_id = request.body.song_id
     var party_id = request.body.party_id
     var vote_value=request.body.vote_value
+    console.log("vote")
+    console.log(request.body)
     // token = getToken(request)
     // if (token) {
     //     let legit = validateToken(token, response);
@@ -266,7 +268,7 @@ app.post('/vote', (request, response) => {
                         model.voteSong(song_id, party_id,vote_value).then(
                             function (bool) {
                                 let json = { "status": bool };
-                                console.log(json);
+                                console.log("vote"+JSON.stringify(json))
                                 response.writeHead(200, jsonType);
                                 response.write(JSON.stringify(json));
                                 response.end();
@@ -289,11 +291,12 @@ app.post('/vote', (request, response) => {
 
 app.get('/songList', (request, response) => {
     let party_name = request.query.party_name
+    console.log("getting song list")
     if (party_name) {
         model.getSongList(party_name).then(
             function (json) {
 
-                console.log("list_obj:" + json);
+                // console.log("list_obj:" + JSON.stringify(json));
                 json["song_list"]=json["song_list"].sort(function(a,b){return b["vote_count"]-a["vote_count"];})
                 response.writeHead(200, jsonType);
                 response.write(JSON.stringify(json));
@@ -327,16 +330,20 @@ app.post('/setDancing',(request,response)=>{
 app.post("/setPlayed",(request,response)=>{
     party_id=request.body.party_id
     song_id=request.body.song_id
-
+    console.log("set played request")
     if (party_id&&song_id) {
         model.setPlayed(party_id,song_id).then(
             function (bool) {
-                let json = { "status": bool };
-                console.log(json);
-                response.writeHead(200, jsonType);
-                response.write(JSON.stringify(json));
-                response.end();
+                if(bool)
+                {let json = { "status": bool };
+                // console.log(JSON.stringify(json));
 
+                response.writeHead(200, jsonType);
+                response.write("{\"status\":true}");
+                response.end();
+                console.log("sent response");
+
+            } else send500Response(response)
             }).catch((err) => setImmediate(() => { send500Response(response); console.log(err); }));
         }
         else send403Response(response)
