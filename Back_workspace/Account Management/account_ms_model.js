@@ -11,6 +11,7 @@ hashPassword = function (password) {
 }
 //true if usename exists;false otherwise (resolve;resolve;reject if cannot conenct to db)
 function checkUsername(name) {
+    console.log("user"+name)
     return new Promise(function (resolve, reject) {
         // create new client
         const client = new MongoClient(uri, { useNewUrlParser: true });
@@ -56,7 +57,9 @@ function checkEmail(email) {
             line = {}
             line.email = email
             collection.find(line).limit(1).count((err, result) => {
-                if (result == 0) reject(false);
+                if(err)
+                reject(err)
+                if (result == 0) resolve(false);
                 else resolve(true);
 
             });
@@ -408,7 +411,7 @@ module.exports.register = function (name, pass, email) {
                     }
                 }).catch((err) => setImmediate(() => { console.log(err); reject(err); }));
             }
-        });
+        }).catch((err) => setImmediate(() => { console.log(err); reject(err); }));
     })
 }
 module.exports.changePassword = function (email) {

@@ -254,15 +254,16 @@ app.post('/addSong', (request, response) => {
 app.post('/vote', (request, response) => {
     var song_id = request.body.song_id
     var party_id = request.body.party_id
-    token = getToken(request)
-    if (token) {
-        let legit = validateToken(token, response);
-        if (legit) {
-            console.log(legit.user_id)
-            model.isParticipant(party_id, legit.user_id).then((check) => {
-                if (check) {
-                    if (song_id) {
-                        model.voteSong(song_id, legit.user_id, party_id).then(
+    var vote_value=request.body.vote_value
+    // token = getToken(request)
+    // if (token) {
+    //     let legit = validateToken(token, response);
+    //     if (legit) {
+    //         // console.log(legit.user_id)
+            // model.isParticipant(party_id, legit.user_id).then((check) => {
+            //     if (check) {
+                    if (song_id&&party_id&&vote_value) {
+                        model.voteSong(song_id, party_id,vote_value).then(
                             function (bool) {
                                 let json = { "status": bool };
                                 console.log(json);
@@ -276,23 +277,24 @@ app.post('/vote', (request, response) => {
                     }
                     else send403Response(response)
 
-                }
-                else send403Response(response)
-            }).catch((err) => setImmediate(() => { send500Response(response); console.log(err); }));
+            //     }
+            //     else send403Response(response)
+            // }).catch((err) => setImmediate(() => { send500Response(response); console.log(err); }));
 
-        }
-        else send401Response(response)
-    }
-    else send401Response(response, 'No jwt found inside the authorization(bearer')
+        // }
+        // else send401Response(response)
+    // }
+    // else send401Response(response, 'No jwt found inside the authorization(bearer')
 });
 
-app.get('/initialSongList', (request, response) => {
+app.get('/songList', (request, response) => {
     let party_name = request.query.party_name
     if (party_name) {
         model.getSongList(party_name).then(
             function (json) {
 
                 console.log("list_obj:" + json);
+                json["song_list"]=json["song_list"].sort(function(a,b){return b["vote_count"]-a["vote_count"];})
                 response.writeHead(200, jsonType);
                 response.write(JSON.stringify(json));
                 response.end();
@@ -301,6 +303,43 @@ app.get('/initialSongList', (request, response) => {
 
     }
     else send403Response(response)
+
+})
+
+app.post('/setDancing',(request,response)=>{
+    party_id=request.body.party_id
+    user_id=request.body.user_id
+    is_dancing=request.body.is_dancing
+
+    if (party_id&&user_id&&is_dancing) {
+        model.setDancing(party_id,user_id,is_dancing).then(
+            function (bool) {
+                let json = { "status": bool };
+                console.log(json);
+                response.writeHead(200, jsonType);
+                response.write(JSON.stringify(json));
+                response.end();
+
+            }).catch((err) => setImmediate(() => { send500Response(response); console.log(err); }));
+        }
+        else send403Response(response)
+})
+app.post("/setPlayed",(request,response)=>{
+    party_id=request.body.party_id
+    song_id=request.body.song_id
+
+    if (party_id&&song_id) {
+        model.setPlayed(party_id,song_id).then(
+            function (bool) {
+                let json = { "status": bool };
+                console.log(json);
+                response.writeHead(200, jsonType);
+                response.write(JSON.stringify(json));
+                response.end();
+
+            }).catch((err) => setImmediate(() => { send500Response(response); console.log(err); }));
+        }
+        else send403Response(response)
 
 })
 

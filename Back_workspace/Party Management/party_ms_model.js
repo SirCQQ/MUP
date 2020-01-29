@@ -74,13 +74,13 @@ module.exports.isParticipant = function (party_name, user) {
             line.party_name = party_name
 
             collection.find(line).limit(1).toArray((err, result) => {
-                if(result[0])
-                {l = result[0].user_list.length
-                for (let i = 0; i < l; i++) {
-                    if (result[0].user_list[i] == user)
-                        resolve(true)
-                }
-                resolve(false);
+                if (result[0]) {
+                    l = result[0].user_list.length
+                    for (let i = 0; i < l; i++) {
+                        if (result[0].user_list[i] == user)
+                            resolve(true)
+                    }
+                    resolve(false);
                 }
                 else resolve(false);
 
@@ -207,7 +207,7 @@ module.exports.deleteUser = function (partyName, userName, userWhoAsks) {
 
     });
 }
-function addSongToParties(partyName, title) {
+function addSongToParties(partyName, artist, title, genre, album) {
     return new Promise(function (resolve, reject) {
 
 
@@ -220,7 +220,7 @@ function addSongToParties(partyName, title) {
             line = {}
 
             line.party_name = partyName
-            let song_obj = { "song_id": title, "vote_count": 0 }
+            let song_obj = { "song_id": title, "artist": artist, "genre": genre, "album": album, "vote_count": 0, "played": false }
             console.log("adding song" + song_obj)
             collection.updateOne(line, { $addToSet: { 'song_list': song_obj } }, function (err, result) {
                 if (err)
@@ -235,7 +235,7 @@ function addSongToParties(partyName, title) {
     });
 
 }
-function addSongToSongs(artist, title,genre,album) {
+function addSongToSongs(artist, title, genre, album) {
     return new Promise(function (resolve, reject) {
 
 
@@ -249,9 +249,9 @@ function addSongToSongs(artist, title,genre,album) {
 
             line.artist = artist
             line.title = title
-            line.genre=genre
-            line.album=album
-            
+            line.genre = genre
+            line.album = album
+
             console.log("adding line" + line)
             collection.insertOne(line, function (err, result) {
                 if (err)
@@ -267,11 +267,11 @@ function addSongToSongs(artist, title,genre,album) {
 
 
 }
-module.exports.addSong = function (artist, title,genre,album, party) {
+module.exports.addSong = function (artist, title, genre, album, party) {
     return new Promise(function (resolve, reject) {
-        addSongToSongs(artist, title,genre,album).then((bool) => {
+        addSongToSongs(artist, title, genre, album).then((bool) => {
             if (bool) {
-                addSongToParties(party, title).then((bool2) => {
+                addSongToParties(party, artist, title, genre, album).then((bool2) => {
                     if (bool2)
                         resolve(true)
                     else
@@ -286,7 +286,7 @@ module.exports.addSong = function (artist, title,genre,album, party) {
     });
 
 }
-module.exports.voteSong = function (song_id, user_id, party_id) {
+module.exports.voteSong = function (song_id, party_id, vote_value) {
     return new Promise(function (resolve, reject) {
 
 
@@ -297,8 +297,7 @@ module.exports.voteSong = function (song_id, user_id, party_id) {
             if (err)
                 reject(err)
 
-            console.log("adding line" + line)
-            collection.updateOne({ "party_name": party_id, "song_list.song_id": song_id }, { $inc: { 'song_list.$.vote_count': 1 } }, function (err, result) {
+            collection.updateOne({ "party_name": party_id, "song_list.song_id": song_id }, { $inc: { 'song_list.$.vote_count': vote_value } }, function (err, result) {
                 if (err)
                     reject(false);
                 else
@@ -311,6 +310,62 @@ module.exports.voteSong = function (song_id, user_id, party_id) {
     });
 
 }
+
+module.exports.setDancing = function (party_id, user_id, is_dancing) {
+    return new Promise(function (resolve, reject) {
+        const client = new MongoClient(uri, { useNewUrlParser: true });
+        client.connect(err => {
+            const collection = client.db("party_management").collection("parties");
+            // perform actions on the collection object
+            if (err)
+                reject(err)
+
+            // query
+            line={"party_id":party_id,"user_list.user_id":user_id}
+ 
+            setter = {"user_list.is_dancing":is_dancing}
+            setter.is_dancing = is_dancing
+                      collection.updateOne(line, { $set: setter }, function (err, result) {
+                if (err)
+                    reject(false);
+                else
+                    resolve(true);
+            });
+            client.close();
+        });
+
+
+
+    });
+}
+module.exports.setPlayed = function (party_id, song_id) {
+    return new Promise(function (resolve, reject) {
+        const client = new MongoClient(uri, { useNewUrlParser: true });
+        client.connect(err => {
+            const collection = client.db("party_management").collection("parties");
+            // perform actions on the collection object
+            if (err)
+                reject(err)
+
+            // query
+            line={"party_id":party_id,"song_list.song_id":song_id}
+ 
+            setter = {"song_list.played":true}
+            console.log(JSON.stringify(line)+JSON.stringify(setter))
+            collection.updateOne(line, { $set: setter }, function (err, result) {
+                if (err)
+                    reject(false);
+                else
+                    resolve(true);
+            });
+            client.close();
+        });
+
+
+
+
+    });
+}
 module.exports.getSongList = function (party_name) {
     return new Promise(function (resolve, reject) {
 
@@ -322,16 +377,16 @@ module.exports.getSongList = function (party_name) {
                 reject(err)
             console.log("connected");
             const collection = client.db("party_management").collection("parties");
-           
-            line={}
+
+            line = {}
             line.party_name = party_name
             console.log(party_name)
 
-            console.log("Getting list for party:"+JSON.stringify(line))
+            console.log("Getting list for party:" + JSON.stringify(line))
             collection.find(line).limit(1).toArray((err, result) => {
-                
-                
-                if(err)
+
+
+                if (err)
                     reject(err)
                 if (result[0]) {
                     console.log(result[0])
@@ -354,6 +409,10 @@ module.exports.getSongList = function (party_name) {
                     for (let i = 0; i < l; i++) {
                         songObj = {}
                         songObj.song_id = result[0].song_list[i].song_id
+                        songObj.artist = result[0].song_list[i].artist
+                        songObj.genre = result[0].song_list[i].genre
+                        songObj.album = result[0].song_list[i].album
+                        songObj.played = result[0].song_list[i].played
                         songObj.vote_count = result[0].song_list[i].vote_count
 
                         songListObj.song_list.push(songObj)

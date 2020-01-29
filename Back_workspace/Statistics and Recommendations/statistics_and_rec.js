@@ -4,7 +4,7 @@ const app = express();
 
 const jsonType = { "Access-Control-Allow-Methods": "GET,POST,DELETE", "Access-Control-Allow-Credentials": true, "Access-Control-Allow-Headers": "authorization,content-type", "Access-Control-Allow-Origin": "*", "Content-Type": "application/json" };
 
-const model=require("./account_ms_model.js");
+const model=require("./statistics_and_rec_model.js");
 //for working with the file system
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
@@ -72,6 +72,32 @@ function validateToken(token, response) {
     return legit;
 
 }
+
+app.post('/sendUpdate',(request,response)=>{
+    user_id=request.body.user_id
+    party_id=request.body.party_id
+    is_dancing=request.body.is_dancing
+    song_id=request.body.song_playing_id
+    if(user_id&&party_id&&song_id)
+    {
+        model.updateParty(user_id,party_id,song_id,is_dancing).then((json)=>{
+            if(json)
+            {
+                json["song_list"]=json["song_list"].sort(function(a,b){return b["vote_count"]-a["vote_count"];})
+                console.log("list_obj:" + json);
+               
+                response.writeHead(200, jsonType);
+                response.write(JSON.stringify(json));
+                response.end();
+
+
+            }
+            else send500Response(response)
+        }).catch((err) => setImmediate(() => { send500Response(response); console.log(err); }));
+
+    }    
+})
+
 app.get('/userDetails',(request,response)=>{
     var username=request.query.username
     
@@ -81,30 +107,12 @@ app.get('/partyDetails',(request,response)=>{
     var party_name=request.querty.party_name
     
 })
-app.get('/songList',(request,response)=>{
-    var party_name=request.query.party_name
-  
-})
-app.post('/currently_playing',(request,response)=>{
-    var song_id=request.body.song_id;
-    
-    
-})
-app.post('/vote',(request,response)=>{
-    var song_id=request.body.song_id
-})
-
-app.get('/initialSongList',(request,response)=>{
-    var party_name=request.query.party_name
-
-})
-
 
 
 app.use(function (req, res, next) {
     send404Response(res);
   })
 
-app.listen(8001, () => {
-    console.log("Party Management Service is running");
+app.listen(8004, () => {
+    console.log("Statistics and Recommendations Service is running");
 });

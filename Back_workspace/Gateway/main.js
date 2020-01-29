@@ -331,22 +331,18 @@ app.post('/vote', (request, response) => {
     // create new request
     partyMsOptions['path'] = '/vote'
     partyMsOptions['method'] = 'POST'
-    partyMsOptions['headers'] = {
-        'Content-Type': 'application/json',
-        'Content-Length': data.length,
-        'authorization': 'Bearer ' + getToken(request)
-
-    }
+    
+    
     sendRequestWithBodyData(response, partyMsOptions, data)
 
 
 })
 
-app.get('/initialSongList', (request, response) => {
+app.get('/songList', (request, response) => {
     // extract from request
     data = request.query.party_name
     // create new request
-    partyMsOptions['path'] = '/initialSongList?party_name=' + data
+    partyMsOptions['path'] = '/songList?party_name=' + data
     partyMsOptions['method'] = 'GET'
 
     sendRequest(response, partyMsOptions)
