@@ -1,0 +1,108 @@
+@import url('https://netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.css');
+@import url(https://fonts.googleapis.com/css?family=Lato:400,300,700);
+@import url('https://fonts.googleapis.com/css?family=Andada|Permanent+Marker|Raleway:300');
+
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    background-image: url('../backgrounds/backgroundMainPage.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    margin: 0px
+}
+
+.bothContainers {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.leftContainer {
+    background-color: rgba(92, 42, 98, 0.9);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+}
+
+img {
+    width: 250px;
+    height: auto;
+}
+
+.menu {
+    flex: 3.5;
+    background-image: linear-gradient(white, rgba(92, 42, 98, 0.7) 150%);
+}
+
+.menuItems {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+button {
+    display: block;
+    background-color: rgba(92, 42, 98, 1);
+    outline: 0;
+    text-decoration: none;
+    border-radius: 0 10px 0 0;
+    border-color: white;
+    color: white;
+    font-family: 'Permanent Marker', cursisve;
+    margin-top: 5%;
+}
+
+.rightContainer {
+    flex: 6;
+}
+
+.allPartyCards {
+    margin-top: 9%;
+    margin-left: 10%;
+}
+
+.partyCard {
+    background-color: white;
+    width: 10%;
+    height: 40%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 10%;
+}
+
+.deleteParty {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-top: 10%;
+}
+
+.describeParty {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.partyActions {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    margin-top: 10%;
+}
