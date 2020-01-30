@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./css/help-page.css"/>
+    <title>Help page</title>
+    <style> 
+    @keyframes leftToRight{
+    0%{
+        transform:translateX(-100%);
+    }
+    100%{
+        transform:translateX(0%);
+    }
+}
+@keyframes topToBot{
+    0%{
+        transform: translateY(-11100%);
+    }
+    100%{
+        transform: translateY(0%);
+    }
+}
+html{
+    background-color:#ff9d00; 
+}
+.title{
+    text-align:center;
+    color: #dfe6e9;
+    font-size:270%;
+    font-family: Arial, Helvetica, sans-serif;
+    animation: 0.5s ease-out 0s 1 leftToRight;
+}
+.description{
+    text-align: left;
+    padding-left: 1%;
+    color:#2d3436;
+    font-size:200%;
+    font-family: 'Times New Roman', Times, serif;
+    animation: 1s ease-out 0s 1 topToBot;
+}
+.info{
+    text-align:left;
+    padding-left: 3%;
+    font-size:140%;
+    letter-spacing: 1px;
+    line-height: 45px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    background-color:#ffbb00; 
+}
+
+img{
+    width: 50%;
+    margin:auto;
+}</style>
+</head>
+<body>
+    <h1 class="title">Help page</h1>
+    <h5 class="description">Why was this application created:</h5>
+    <article class="info">For people that want to create or join a party easly .</article>
+
+    <h5 class="description">For who was this application created:</h5>
+    <article class="info">Most for people over 14 years that start to throw or go to parties </article>
+    <h5 class="description">What is our application doing:</h5>
+    <article class="info">Create/Join  a party </article>
+    <article class="info">Upload song that you like to have a chanse to listen to them when you are there</article>
+    <article class="info">Listen to the songs that you and others upload</article>
+
+    <h5 class="description">How to create a new party:</h5>
+    <article class="info"> Simply click on the button "Creata a party" fill up the inputs and you are ready to share the party code </article>
+
+    <h5 class="description">How to join a live party</h5>
+    <article class="info"> 
+        On the main page you have a input for a code, just type the code and join the party
+    </article>     
+
+</body>
+</html>
