@@ -1,0 +1,158 @@
+@import url('https://netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.css');
+@import url(https://fonts.googleapis.com/css?family=Lato:400,300,700);
+@import url('https://fonts.googleapis.com/css?family=Andada|Permanent+Marker|Raleway:300');
+html {}
+
+body {
+    /* Remember to use the other versions for IE 10 and older browsers! */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100%;
+    background-image: url('../backgrounds/backgroundMainPage.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.bothContainers {
+    width: 800px;
+    height: 350px;
+    margin: 8%;
+    display: flex;
+    margin-top: 12%;
+}
+
+.leftContainer {
+    background-color: rgba(92, 42, 98, 0.7);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    box-sizing: content-box;
+}
+
+.logo {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+img {
+    width: 300px;
+}
+
+.describeApp {
+    flex: 2;
+    display: flex;
+}
+
+.listDescribeApp {
+    margin-top: -15%;
+}
+
+li {
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.rightContainer {
+    background-image: linear-gradient(to right, white, rgba(92, 42, 98, 0.7) 150%);
+    flex: 1.4;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+span {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 40px;
+    color: rgba(92, 42, 98, 0.7);
+}
+
+.loginRegisterLinks {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.registerForm {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.registerButtons {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.inputElements {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    width: 60%;
+    margin-left: 20%;
+}
+
+input {
+    border: 0;
+    border-bottom: 2px solid rgba(92, 42, 98, 0.7);
+    font-family: 'Permanent Marker', cursisve;
+    font-size: 20px;
+    line-height: 15px;
+    height: 30px;
+    background: transparent;
+    text-align: center;
+    color: rgba(92, 42, 98, 0.7);
+    margin-top: 10px;
+}
+
+input:focus {
+    outline: 0;
+    color: rgba(92, 42, 98, 0.7);
+}
+
+input::placeholder {
+    color: rgba(92, 42, 98, 0.7);
+    font-family: 'Permanent Marker', cursisve;
+    font-size: 15px;
+}
+
+button {
+    display: block;
+    background-color: rgba(92, 42, 98, 0.7);
+    outline: 0;
+    text-decoration: none;
+    border-radius: 0 10px 0 0;
+    border-color: white;
+    color: white;
+    font-family: 'Permanent Marker', cursisve;
+    width: 60%;
+    margin-left: 20%;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+    background-color: rgba(92, 42, 98, 0.7);
+    background-size: 10px 10px;
+    width: 40%;
+    margin-left: 30%;
+}
+
+#forgotPass {
+    width: 30%;
+    margin-left: 35%;
+}

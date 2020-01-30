@@ -1,0 +1,246 @@
+@import url('https://netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.css');
+@import url(https://fonts.googleapis.com/css?family=Lato:400,300,700);
+@import url('https://fonts.googleapis.com/css?family=Andada|Permanent+Marker|Raleway:300');
+
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    /* Remember to use the other versions for IE 10 and older browsers! */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100%;
+    background-image: url('../backgrounds/backgroundMainPage.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    overflow: hidden;
+    height: 100%;
+    margin-top: 0;
+    margin-left: 0;
+    margin-bottom: 0;
+    margin-right: 0;
+}
+
+.bothContainersRegister  {
+    width: 800px;
+    height: 350px;
+    margin: 8%;
+    display: flex;
+    margin-top: 12%;
+}
+
+
+.bothContainers {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.leftContainer {
+    background-color: rgba(92, 42, 98, 0.9);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.leftContainerRegister {
+    background-color: rgba(92, 42, 98, 0.9);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    box-sizing: content-box;
+}
+
+
+.logo {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+
+.imgRegister{
+    width: 300px;
+}
+
+img {
+    width: 250px;
+    height: auto;
+}
+
+.describeApp {
+    flex: 2;
+    display: flex;
+}
+
+.listDescribeApp {
+    margin-top: -15%;
+}
+
+
+li {
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.rightContainerRegister {
+    background-image: linear-gradient(to right, white, rgba(92, 42, 98, 0.7) 150%);
+    flex: 1.4;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+span .register{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 40px;
+    color: rgba(92, 42, 98, 0.7);
+}
+
+.loginRegisterLinks {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+
+.loginForm {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.loginButtons {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+
+
+.inputElements {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    width: 60%;
+    margin-left: 20%;
+}
+
+input {
+    border: 0;
+    border-bottom: 2px solid rgba(92, 42, 98, 0.7);
+    font-family: 'Permanent Marker', cursisve;
+    font-size: 20px;
+    line-height: 15px;
+    height: 30px;
+    background: transparent;
+    text-align: center;
+    color: rgba(92, 42, 98, 0.7);
+/* }
+
+input[type='password'] { */
+    margin-top: 10px;
+}
+
+
+input:focus {
+    outline: 0;
+    color: rgba(92, 42, 98, 0.7);
+}
+
+input::placeholder {
+    color: rgba(92, 42, 98, 0.7);
+    font-family: 'Permanent Marker', cursisve;
+    font-size: 15px;
+}
+
+.buttonRegister {
+    display: block;
+    background-color: rgba(92, 42, 98, 0.7);
+    outline: 0;
+    text-decoration: none;
+    border-radius: 0 10px 0 0;
+    border-color: white;
+    color: white;
+    font-family: 'Permanent Marker', cursisve;
+    width: 60%;
+    margin-left: 20%;
+    /* margin-top: -15%; */
+}
+
+a {
+    text-decoration: none;
+    color: white;
+    background-color: rgba(92, 42, 98, 0.7);
+    background-size: 10px 10px;
+    width: 40%;
+    margin-left: 30%;
+}
+
+#forgotPass {
+    width: 30%;
+    margin-left: 35%;
+}
+
+
+.menu {
+    flex: 3.5;
+    background-image: linear-gradient(white, rgba(92, 42, 98, 0.7) 150%);
+}
+
+.menuItems {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+button {
+    display: block;
+    background-color: rgba(92, 42, 98, 1);
+    outline: 0;
+    text-decoration: none;
+    border-radius: 0 10px 0 0;
+    border-color: white;
+    color: white;
+    font-family: 'Permanent Marker', cursisve;
+    margin-top: 5%;
+}
+
+.rightContainer {
+    /* display: flex; */
+    flex: 6;
+}
+
+.describeParty {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.uploadSongs {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.uploadTrack {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
