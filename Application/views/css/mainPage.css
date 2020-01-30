@@ -1,10 +1,13 @@
 @import url('https://fonts.googleapis.com/css?family=Andada|Permanent+Marker|Raleway:300');
-html {}
 
-.mainPageElements {
-    display: flex;
-    justify-content: space-around;
-    flex-direction: column;
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    width: 100%;
+    height: 100%;
 }
 
 .logo {
@@ -13,15 +16,23 @@ html {}
 }
 
 body {
+    /* Remember to use the other versions for IE 10 and older browsers! */
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
     background-image: url('../backgrounds/backgroundMainPage.png');
     background-repeat: no-repeat;
     background-position: center center;
     background-attachment: fixed;
     background-size: cover;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    margin: 0px
 }
 
 img {
-    width: 320px;
+    width: 250px;
     height: auto;
 }
 
@@ -32,14 +43,27 @@ img {
 }
 
 .buttonWrapper {
-    display: flex;
+    /* display: flex; */
+    width: 100%;
     margin-top: 15px;
     margin-bottom: 15px;
     justify-content: center;
+    /* align-self: center; */
 }
 
 #joinPartyButton {
+    position: relative;
+    left: 50%;
     flex: 1;
+    transform: translate(-50%, -50%);
+}
+
+.center {
+    position: relative;
+    left: 50%;
+    top: 50%;
+    flex: 1;
+    transform: translate(-50%, -50%);
 }
 
 input {
@@ -65,16 +89,7 @@ input::placeholder {
     font-size: 25px;
 }
 
-button {
-    display: block;
-    background-color: purple;
-    outline: 0;
-    text-decoration: none;
-    border-radius: 0 10px 0 0;
-    border-color: white;
-    color: white;
-    font-family: 'Permanent Marker', cursisve;
-}
+
 
 #myPartiesButton {
     border-radius: 0 0 0 10px;
@@ -88,4 +103,52 @@ button {
 .showForm {
     display: flex;
     justify-content: center;
+}
+
+.menu {
+    flex: 3.5;
+    background-image: linear-gradient(white, rgba(92, 42, 98, 0.7) 150%);
+}
+
+.menuItems {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+button {
+    display: block;
+    background-color: rgba(92, 42, 98, 1);
+    outline: 0;
+    text-decoration: none;
+    border-radius: 0 10px 0 0;
+    border-color: white;
+    color: white;
+    font-family: 'Permanent Marker', cursisve;
+    margin-top: 5%;
+}
+
+.bothContainers {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+}
+
+.rightContainer {
+    /* display: flex; */
+    flex: 6;
+}
+
+.leftContainer {
+    background-color: rgba(92, 42, 98, 0.9);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.mainPageElements {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
 }
