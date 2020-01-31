@@ -31,6 +31,7 @@ gyroscope.addEventListener('reading', e => {
                     result+=resp.song_list[0].song_id;
                     setCookie("song_id",result,7)
                     change_song(result)
+                    create_songList(resp)
         })
         .catch(err=>{
             console.log(err);

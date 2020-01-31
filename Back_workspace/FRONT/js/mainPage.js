@@ -16,7 +16,7 @@ function create_login() {
                         <li>Get your Party started</li>
                         <li>Create or Join to a Party</li>
                         <li>Decide which tracks should be played</li>
-                    </ul>
+                    </ul> 
                 </div>
             </div>
         </div>
@@ -141,14 +141,20 @@ function create_main() {
 
 }
 
-function create_live_party(){
-    let body=document.querySelector("body");
-    body.innerHTML=`
+function create_live_party() {
+    let body = document.querySelector("body");
+    body.innerHTML = `
     
+    <div class="songsList" style="color:white;">
+        <ul class="songs">
+           
+        </ul>
+    </div>
     <audio  style="position:absolute; top:90%; width:100%; " controls src="http://localhost:3001/streamSong?song_id=Who%20Dat%20Boy"    autoplay> </audio>
 
+
     `
-    
+
 }
 
 function create_my_parties() {
@@ -243,47 +249,51 @@ function changePage() {
             create_register();
             break;
         case "/":
-            if(checkLogged())
-                {change_css("mainPage")
+            if (checkLogged()) {
+                change_css("mainPage")
                 create_container();
                 create_main();
                 break;
-                }
-            else{
+            }
+            else {
                 change_location("/login")
                 break;
             }
 
         case "/createParty":
-            if(checkLogged())
-            {change_css("manageParty")
-            create_container();
-            create_create_party();
-            break;}
-            else{
+            if (checkLogged()) {
+                change_css("manageParty")
+                create_container();
+                create_create_party();
+                break;
+            }
+            else {
                 change_location("/login")
                 break;
             }
 
         case "/myParties":
-            if(checkLogged())
-            {change_css("myPartiesPage")
-            create_container();
-            create_my_parties();
-            break;}
-        else{
-            change_location("/login")
-            break;
-        }
+            if (checkLogged()) {
+                change_css("myPartiesPage")
+                create_container();
+                create_my_parties();
+                break;
+            }
+            else {
+                change_location("/login")
+                break;
+            }
 
         case "/liveParty":
-            if (checkLogged()){
+            if (checkLogged()) {
                 change_css("liveParty")
                 create_live_party()
                 change_song("http://localhost:3001/streamSong?song_id=Toss a coin to your witcher")
+                create_songList()
+
                 break
             }
-            else{
+            else {
                 change_location("/login")
                 break;
             }
@@ -303,7 +313,7 @@ function changePage() {
 function getCookie(cname) {
     let name = cname + "=";
     let ca = document.cookie.split(';');
-    for(let i = 0; i < ca.length; i++) {
+    for (let i = 0; i < ca.length; i++) {
         let c = ca[i];
         while (c.charAt(0) === ' ') {
             c = c.substring(1);
@@ -321,7 +331,7 @@ function checkLogged() {
 }
 
 
-function change_location(location){
+function change_location(location) {
     history.pushState('', '', location);
     changePage();
 }
@@ -333,15 +343,26 @@ window.onload = changePage();
 
 
 
-function change_song(song){
-    let audio=document.querySelector('audio')
-                audio.onended=()=>{
-                setCookie("song_id",song,7)
-                // audio.src='http://localhost:3001/streamSong?song_id=+Toss a coin to your witcher'
-                audio.src=song;
-                audio.play()
+function change_song(song) {
+    let audio = document.querySelector('audio')
+    audio.onended = () => {
+        setCookie("song_id", song, 7)
+        // audio.src='http://localhost:3001/streamSong?song_id=+Toss a coin to your witcher'
+        audio.src = song;
+        audio.play()
+    }
 }
+
+
+function create_songList(object_songInfo) {
+    let songs = object_songInfo.song_list
+    let songList_ul = document.querySelector('ul.songs')
+
+    let song_items = ""
+    songs.forEach(song => {
+        song_items += `
+                    <li> ${song.artist} -  ${song.song_id}</li>
+                `
+    })
+    songList_ul.innerHTML = song_items
 }
-
-
-
