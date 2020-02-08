@@ -10,13 +10,8 @@ body {
     overflow: hidden;
 }
 
-img {
-    width: 65%;
-    margin-top: -5%;
-    opacity: 0.5;
-}
-
-span {
+h2,
+h3 {
     color: white;
 }
 
@@ -24,14 +19,60 @@ span {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    width: 65%;
-    border: 1px solid red;
+    width: 75%;
+    height: 700px;
+    border-radius: 10px 10px 10px 10px;
+    border: solid purple;
 }
 
-.everySong {
-    flex: 1;
+.partyInfo{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    flex:1;
 }
 
-.actionButtons {
+audio{
     flex: 1;
+    outline: none;
+    width: 100%;
+}
+
+.songsList{
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.songs{
+    color: white;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+}
+
+/* .songs li:hover + button{
+    display: block;
+} */
+
+button{
+    background: none;
+    outline: none;
+    text-decoration: none;
+    border: none;
+    display: block;
+    cursor: pointer;
+}
+
+.eachSong{
+    border: 1px solid white;
+    display: flex;
+    flex: 1;
+    margin-bottom: 2%;
+    width: 100%;
 }
