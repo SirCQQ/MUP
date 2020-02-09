@@ -143,7 +143,6 @@ function create_main() {
 function create_live_party() {
     let body = document.querySelector("body");
     body.innerHTML = `
-
     <div class="livePartyCard">
         <div class="partyInfo">
             <h2>Party Code: </h2>
@@ -295,10 +294,8 @@ function changePage() {
             if (checkLogged()) {
                 change_css("liveParty")
                 create_live_party()
-                change_song("http://localhost:3001/streamSong?song_id=Toss a coin to your witcher")
-                create_songList()
-                favorite_genre()
-                party_code()
+                change_song("Toss a coin to your witcher")
+                fetchSongInfo()
                 // vote_song()
 
                 break
@@ -357,32 +354,67 @@ function change_song(song) {
     let audio = document.querySelector('audio')
     audio.onended = () => {
         setCookie("song_id", song, 7)
-        // audio.src='http://localhost:3001/streamSong?song_id=+Toss a coin to your witcher'
-        audio.src = song;
+        audio.src=`http://localhost:3001/streamSong?song_id=${song}`
+        // audio.src = song;
         audio.play()
     }
 }
 
 function create_songList(object_songInfo) {
-    fetch("http://localhost:8003/songList?party_name=VD2020")
-        .then(resp => resp.json())
-        .then(object_songInfo => {
-            let songs = object_songInfo.song_list
-            let songList_ul = document.querySelector('ul.songs')
 
-            let index_song=1;
-            let song_items = "";
-            songs.forEach(song => {
-                song_items += `
+    let songs = object_songInfo.song_list
+    let songList_ul = document.querySelector('ul.songs')
+
+    let index_song = 1;
+    let song_items = "";
+    songs.forEach(song => {
+        song_items += `
                     <div class="eachSong">
                     <li> ${index_song}.${song.artist} -  ${song.song_id}</li>
-                    <button type="submit" id="buttonSong${song.song_id}">❤</button>
+                    <button type="submit" class="vote-song" id="${song.song_id}">❤</button>
                     </div>
                 `
-                index_song++;
+        index_song++;
+    })
+    songList_ul.innerHTML = song_items;
+    
+    
+    let buttons = document.querySelectorAll("button")
+    // console.log(buttons)
+
+    buttons.forEach(button => {
+        button.addEventListener("click", (event) => {
+            // console.log(event.target.id)
+            let body = {
+                user_id: getCookie("userid"),
+                party_id: "VD2020",
+                song_playing_id: event.target.id,
+                is_dancing: true
+            }
+            // console.log(body);
+            body = JSON.stringify(body)
+            fetch("http://localhost:8004/sendUpdate", {
+                method: "POST",
+                body: body,
+                headers: {
+                    "Content-Type": "application/json"
+                }
             })
-            songList_ul.innerHTML = song_items;
+                .then(resp => resp.json())
+                .then(resp => {
+                    console.log(resp);
+                    let result = "";
+                    result += resp.song_list[0].song_id;
+                    setCookie("song_id", result, 7)
+                    change_song(result)
+                    create_songList(resp)
+                })
+                .catch(err => {
+                    console.log(err);
+                })
         })
+    })
+
 }
 
 function mostFreq_Item(array) {
@@ -404,28 +436,24 @@ function mostFreq_Item(array) {
     return item;
 }
 
-function favorite_genre() {
-    fetch("http://localhost:8003/songList?party_name=VD2020")
-        .then(resp => resp.json())
-        .then(genreList => {
-            let genre_array = [];
-            let result = document.querySelector('h3');
+function favorite_genre(genreList) {
 
-            genreList.song_list.forEach(song_genre => {
-                genre_array.push(song_genre.genre);
-            })
+    let genre_array = [];
+    let result = document.querySelector('h3');
 
-            result.innerHTML += mostFreq_Item(genre_array);
-        })
+    genreList.song_list.forEach(song_genre => {
+        genre_array.push(song_genre.genre);
+    })
+
+    result.innerHTML += mostFreq_Item(genre_array);
+
 }
 
-function party_code() {
-    fetch("http://localhost:8003/songList?party_name=VD2020")
-        .then(resp => resp.json())
-        .then(partyCode => {
-            let result = document.querySelector('h2');
-            result.innerHTML += partyCode.party_id;
-        })
+function party_code(partyCode) {
+
+    let result = document.querySelector('h2');
+    result.innerHTML += partyCode.party_id;
+
 }
 
 // function vote_song(){
@@ -436,3 +464,15 @@ function party_code() {
 //     .then(resp => resp.json())
 //     .then(msg => console.log(msg))
 // }
+
+
+function fetchSongInfo() {
+    fetch("http://localhost:8003/songList?party_name=VD2020")
+        .then(resp => resp.json())
+        .then(info => {
+            party_code(info);
+            favorite_genre(info);
+            create_songList(info);
+
+        })
+}

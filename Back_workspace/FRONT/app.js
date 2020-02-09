@@ -13,16 +13,16 @@ let app = express()
 // app.use(express.static("index"))
 
 app.get("/css/*", (req, res) => {
-    console.log(__dirname + req.path)
+    // console.log(__dirname + req.path)
     res.sendFile(__dirname + req.path)
 })
 
 app.get("/logoMup/*", (req, res) => {
-    console.log(__dirname + req.path)
+    // console.log(__dirname + req.path)
     res.sendFile(__dirname + req.path)
 })
 app.get("/backgrounds/*", (req, res) => {
-    console.log(__dirname + req.path)
+    // console.log(__dirname + req.path)
     res.sendFile(__dirname + req.path)
 })
 
@@ -30,6 +30,12 @@ app.get("/js/*", (req, res) => {
     console.log(__dirname + req.path)
     res.sendFile(__dirname + req.path)
 })
+app.get("/socket.io/*", (req, res) => {
+    // console.log(__dirname + req.path)
+    res.sendFile(__dirname + req.path)
+})
+
+
 
 // app.post()
 
