@@ -28,8 +28,8 @@ function create_login() {
             <div class="loginForm">
                 <form action="#" method="POST">
                     <div class="inputElements">
-                        <input id="username" type="email" placeholder="E-mail" required>
-                        <input id="password" type="password" placeholder="Password" required>
+                        <input id="username" type="text" placeholder="E-mail" required>
+                        <input id="password" type="text" placeholder="Password" required>
                     </div>
             </div>
             <div class="loginButtons">
@@ -455,16 +455,6 @@ function party_code(partyCode) {
     result.innerHTML += partyCode.party_id;
 
 }
-
-// function vote_song(){
-//     fetch("http://localhost:8003/songList?party_name=VD2020", {
-//         method: 'PUT',
-//         body: 
-//     })
-//     .then(resp => resp.json())
-//     .then(msg => console.log(msg))
-// }
-
 
 function fetchSongInfo() {
     fetch("http://localhost:8003/songList?party_name=VD2020")

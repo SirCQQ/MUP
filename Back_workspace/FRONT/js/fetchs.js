@@ -68,6 +68,12 @@ function login() {
                 setCookie("userid",username.value,7)
                 change_location("/")
             }
+            else{
+                document.querySelector("body").innerHTML=resp
+            }
+        })
+        .catch(err => {
+            document.querySelector("body").innerHTML=err
         })
 
 }
